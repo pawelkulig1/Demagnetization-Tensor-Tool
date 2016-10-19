@@ -1,7 +1,7 @@
 import math as mt
 
 class block:
-	def __init__(self, xpoz=0, ypoz=0, zpoz=0, width=50, height=10, depth=10, nElements = 1000):
+	def __init__(self, width=50, depth=10, height=10, nElements = 1000, xpoz=0, ypoz=0, zpoz=0):
 		#define central cordinates of block
 		self.xpoz = xpoz
 		self.ypoz = ypoz
@@ -88,8 +88,8 @@ class smallBlock:
 
 
 
-#define big structure that is going to be cut
-source = block()
+#define big structure that is goind to be cut
+source = block(50,10, 10, 1000)
 
 
 #for each small part create object
@@ -101,7 +101,6 @@ for i in range(source.nElements):
 
 #print(sourceDivided[0]*sourceDivided[99]) #multiplication returns distance in nm
 #print(sourceDivided[0]+sourceDivided[199]) #multiplication returns distance in nm
-
 
 
 
