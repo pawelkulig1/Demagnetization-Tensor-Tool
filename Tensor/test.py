@@ -99,12 +99,53 @@ for i in range(source.nElements):
 	x, y, z = source.smallPoz(i)
 	dx, dy, dz = source.getSmallSize()
 	sourceDivided.append(smallBlock(x,y,z, dx, dy, dz))
+	
 
 #for 0
 
-'''S1 = [[],[]]
+S1 = []
 S2 = []
-S3 = []'''
+S3 = []
+
+S1.append([
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz], 
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height]
+])
+
+S2.append([
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz+ sourceDivided[0].height],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height]
+])
+
+
+S3.append([
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
+	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
+	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height]
+])
+
+
+print(S3[0])
+
 
 #print(sourceDivided[0]*sourceDivided[99]) #multiplication returns distance in nm
 #print(sourceDivided[0]+sourceDivided[199]) #multiplication returns distance in nm
