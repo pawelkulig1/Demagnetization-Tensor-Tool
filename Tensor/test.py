@@ -1,4 +1,5 @@
 import math as mt
+import formulas
 
 class block:
 	def __init__(self, width=50, depth=10, height=10, nElements = 1000, xpoz=0, ypoz=0, zpoz=0):
@@ -144,7 +145,10 @@ S3.append([
 ])
 
 
-print(S3[0])
+
+#formulas.fsum(S1[0])
+
+#print(S3[0])
 
 
 #print(sourceDivided[0]*sourceDivided[99]) #multiplication returns distance in nm

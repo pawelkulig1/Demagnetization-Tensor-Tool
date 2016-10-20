@@ -3,7 +3,6 @@ import math as mt
 def radius(x,y,z):
 	return mt.sqrt(x**2 + y**2 + z**2)
 	
-
 def f(x,y,z):
 	R = radius(x, y, z)
 	return (
@@ -38,9 +37,17 @@ def Nxy(delx, dely, delz, dx, dy, dz):
 	return (
 		(1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*...)
 	)
+
+#returns sum of f function with arguments from k vector	
+def fsum(k):
+	total = 0
+	for i in k:
+		total = total + f(i[0],i[1],i[2])
+	print(total)
 	
-#
-#print(f(1,1,1))
-#print(g(1,1,1))
-
-
+#returns sum of f function with arguments from k vector
+def gsum(k):
+	total = 0
+	for i in k:
+		total = total + g(i[0],i[1],i[2])
+	print(total)
