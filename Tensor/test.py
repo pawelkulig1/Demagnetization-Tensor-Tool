@@ -84,20 +84,27 @@ class smallBlock:
 	#overloading multiplication to get distance between two blocks in nm.	
 	def __mul__(self, other): 
 		return mt.sqrt((self.xpoz-other.xpoz)**2 + (self.ypoz-other.ypoz)**2 + (self.zpoz-other.zpoz)**2)
+		
 
 
 
 
 #define big structure that is goind to be cut
-source = block(50,10, 10, 1000)
+source = block(50,10,10,1000)
 
 
 #for each small part create object
 sourceDivided = []
 for i in range(source.nElements):
 	x, y, z = source.smallPoz(i)
-	w, h, d = source.getSmallSize()
-	sourceDivided.append(smallBlock(x,y,z, w,h,d))
+	dx, dy, dz = source.getSmallSize()
+	sourceDivided.append(smallBlock(x,y,z, dx, dy, dz))
+
+#for 0
+
+'''S1 = [[],[]]
+S2 = []
+S3 = []'''
 
 #print(sourceDivided[0]*sourceDivided[99]) #multiplication returns distance in nm
 #print(sourceDivided[0]+sourceDivided[199]) #multiplication returns distance in nm

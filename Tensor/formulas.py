@@ -39,7 +39,7 @@ def Nxy(delx, dely, delz, dx, dy, dz):
 		(1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*...)
 	)
 	
-
+#
 #print(f(1,1,1))
 #print(g(1,1,1))
 
