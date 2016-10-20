@@ -5,6 +5,9 @@ def radius(x,y,z):
 	
 def f(x,y,z):
 	R = radius(x, y, z)
+	if x==0 or y==0 or z == 0:
+		print("some error occured", x, y, z)
+		exit()
 	return (
 		0.5*y*(z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
 		+ 0.5*z*(y**2 - x**2) * mt.asinh(z/(mt.sqrt(x**2 + y**2)))
@@ -25,18 +28,39 @@ def g(x,y,z):
 		- (1/3)*x*y*R
 	)
 
+#S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
+def calculateNxx(delx, dely, delz, dx, dy, dz, S1, S2, S3):
+	sum1 = 0
+	sum2 = 0
+	sum3 = 0
+	
+	for vect in S1:
+		sum1 = sum1 + f(vect[0], vect[1], vect[2])
+	
+	for vect in S2:
+		sum2 = sum2 + f(vect[0], vect[1], vect[2])
+		
+	for vect in S3:
+		sum3 = sum3 + f(vect[0], vect[1], vect[2])
+		
+	return (1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
-def Nxx(delx, dely, delz, dx, dy, dz):
-	#TODO SUMS
-	return (
-		(1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*...)
-	)
-
-def Nxy(delx, dely, delz, dx, dy, dz):
-	#TODO SUMS
-	return (
-		(1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*...)
-	)
+def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
+	sum1 = 0
+	sum2 = 0
+	sum3 = 0
+	
+	for vect in S1:
+		sum1 = sum1 + g(vect[0], vect[1], vect[2])
+	
+	for vect in S2:
+		sum2 = sum2 + g(vect[0], vect[1], vect[2])
+		
+	for vect in S3:
+		sum3 = sum3 + g(vect[0], vect[1], vect[2])
+	
+	return (1/(4*mt.pi*dx*dy*dz))*(8*g(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
+	
 
 #returns sum of f function with arguments from k vector	
 def fsum(k):

@@ -56,12 +56,10 @@ class block:
 			raise NameError("Error while calculating poz of element")
 
 		xpozSmall = self.xpoz+widthLevel*self.widthSmall + 0.5*self.widthSmall
-		ypozSmall = self.zpoz+depthLevel*self.depthSmall + 0.5*self.depthSmall
-		zpozSmall = self.ypoz+level*self.heightSmall + 0.5*self.heightSmall
+		ypozSmall = self.ypoz+depthLevel*self.depthSmall + 0.5*self.depthSmall
+		zpozSmall = self.zpoz+level*self.heightSmall + 0.5*self.heightSmall
 				
 		return xpozSmall, ypozSmall, zpozSmall
-
-
 
 class smallBlock:
 	def __init__(self, xpoz, ypoz, zpoz, width, depth, height):
@@ -76,7 +74,7 @@ class smallBlock:
 		self.depth = depth
 	
 	def getCoordinates(self):
-		return self.xpoz, self.ypoz, self. zpoz
+		return self.xpoz, self.ypoz, self.zpoz
 
 	#overloading addition returns delta(x), delta(y), delta(z)
 	def __add__(self, other):
@@ -85,74 +83,133 @@ class smallBlock:
 	#overloading multiplication to get distance between two blocks in nm.	
 	def __mul__(self, other): 
 		return mt.sqrt((self.xpoz-other.xpoz)**2 + (self.ypoz-other.ypoz)**2 + (self.zpoz-other.zpoz)**2)
-		
 
 
+#deleting not existing elements from Sn vectors (when cell is on corner or in wall it has less neighbours
+def deleteNotExisting(Sn, block1):
+	source = block1
+	
+	for j in range(len(Sn)):
+		counter = 0
+		for i in range(len(Sn[j])):
+			if (Sn[j][counter][0]<source.xpoz or Sn[j][counter][0]>(source.xpoz+source.width)) or (Sn[j][counter][1]<source.ypoz or Sn[j][counter][1]>(source.ypoz+source.depth)) or (Sn[j][counter][2]<source.zpoz or Sn[j][counter][2]>(source.zpoz+source.height)):
+				del(Sn[j][counter])
+				counter-=1
+				#continue
+			
+			counter+=1
+			
 
 
 #define big structure that is goind to be cut
-source = block(50,10,10,1000)
+emitter = block(50,10,10,1000,0,0,0)
+receiver = block(50, 10, 10, 1000, 0, -20 , 0)
 
 
 #for each small part create object
-sourceDivided = []
-for i in range(source.nElements):
-	x, y, z = source.smallPoz(i)
-	dx, dy, dz = source.getSmallSize()
-	sourceDivided.append(smallBlock(x,y,z, dx, dy, dz))
-	
 
-#for 0
+	
+emitterDivided = []
+for i in range(emitter.nElements):
+	x, y, z = emitter.smallPoz(i)
+	dx, dy, dz = emitter.getSmallSize()
+	emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
+
+receiverDivided = []
+for i in range(receiver.nElements):
+	x, y, z = receiver.smallPoz(i)
+	dx, dy, dz = receiver.getSmallSize()
+	receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
+
+
+#Create helpful S1, S2, S3 vectors for all cells
 
 S1 = []
 S2 = []
 S3 = []
 
-S1.append([
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz], 
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height]
-])
-
-S2.append([
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz+ sourceDivided[0].height],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz, sourceDivided[0].zpoz - sourceDivided[0].height]
-])
 
 
-S3.append([
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz - sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height],
-	[sourceDivided[0].xpoz + sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz + sourceDivided[0].height],
-	[sourceDivided[0].xpoz - sourceDivided[0].width, sourceDivided[0].ypoz + sourceDivided[0].depth, sourceDivided[0].zpoz - sourceDivided[0].height]
-])
+for j in range(1):#range(receiver.nElements):
+	
+	#Nmatrix = []
+	for i in range(emitter.nElements):
+		
+		delx, dely, delz = (receiverDivided[j]+emitterDivided[i])
+		
+		dx = emitterDivided[i].width
+		dy = emitterDivided[i].depth
+		dz = emitterDivided[i].height
+		
+		S1.append([
+			[delx + dx, dely, delz],
+			[delx - dx, dely, delz], 
+			[delx, dely + dy, delz],
+			[delx, dely - dy, delz],
+			[delx, dely, delz + dz],
+			[delx, dely, delz - dz]
+		])
+		
+		S2.append([
+			[delx + dx, dely + dy, delz],
+			[delx - dx, dely + dy, delz],
+			[delx + dx, dely - dy, delz],
+			[delx - dx, dely - dy, delz],
+			[delx, dely + dy, delz + dz],
+			[delx, dely - dy, delz + dz],
+			[delx, dely + dy, delz - dz],
+			[delx, dely - dy, delz - dz],
+			[delx + dx, dely, delz + dz],
+			[delx - dx, dely, delz + dz],
+			[delx + dx, dely, delz - dz],
+			[delx - dx, dely, delz - dz]
+		])
+
+		S3.append([
+			[delx + dx, dely + dy, delz + dz],
+			[delx - dx, dely + dy, delz + dz],
+			[delx - dx, dely - dy, delz + dz],
+			[delx - dx, dely - dy, delz - dz],
+			[delx + dx, dely - dy, delz - dz],
+			[delx + dx, dely + dy, delz - dz],
+			[delx + dx, dely + dy, delz + dz],
+			[delx - dx, dely + dy, delz - dz]
+		])
+		
+		print(S1[0])
+		
+		#deleteNotExisting(S1, emitter)
+		#deleteNotExisting(S2, emitter)
+		#deleteNotExisting(S3, emitter)NOT WORKING
+		
+		a11 = formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		a12 = formulas.calculateNxy(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		a13 = formulas.calculateNxy(delx, delz, dely, dx, dz, dy, S1[i], S2[i], S3[i])
+		#a21 = a12
+		a22 = formulas.calculateNxx(dely, delx, delz, dy, dx, dz, S1[i], S2[i], S3[i])
+		a23 = formulas.calculateNxy(dely, delz, delx, dy, dz, dx, S1[i], S2[i], S3[i])
+		#a31 = a13
+		#a32 = a23
+		a33 = formulas.calculateNxx(delz, dely, delx, dz, dy, dx, S1[i], S2[i], S3[i])
+		N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
+	
+	
+
+
+#print (emitterDivided[0].zpoz, receiverDivided[0].zpoz)
+#print(emitterDivided[0]+receiverDivided[0])
+
+#Create helpful S1, S2, S3 vectors for all cells
 
 
 
+
+Nxx = []
+Nxy = []
+
+
+#print(S1[0])
 #formulas.fsum(S1[0])
-
-#print(S3[0])
-
-
-#print(sourceDivided[0]*sourceDivided[99]) #multiplication returns distance in nm
-#print(sourceDivided[0]+sourceDivided[199]) #multiplication returns distance in nm
 
 
 
