@@ -85,8 +85,8 @@ class smallBlock:
 		return mt.sqrt((self.xpoz-other.xpoz)**2 + (self.ypoz-other.ypoz)**2 + (self.zpoz-other.zpoz)**2)
 
 
-#deleting not existing elements from Sn vectors (when cell is on corner or in wall it has less neighbours
-def deleteNotExisting(Sn, block1):
+#deleting not existing elements from Sn vectors (when cell is on corner or in wall it has less neighbours, for example when cell is left bottom corner it has lack of bottom neighbour
+'''def deleteNotExisting(Sn, block1):
 	source = block1
 	
 	for j in range(len(Sn)):
@@ -100,7 +100,7 @@ def deleteNotExisting(Sn, block1):
 			counter+=1
 			
 
-
+'''
 #define big structure that is goind to be cut
 emitter = block(50,10,10,1000,0,0,0)
 receiver = block(50, 10, 10, 1000, 0, -20 , 0)
@@ -124,15 +124,21 @@ for i in range(receiver.nElements):
 
 #Create helpful S1, S2, S3 vectors for all cells
 
-S1 = []
-S2 = []
-S3 = []
 
-
-
-for j in range(1):#range(receiver.nElements):
+avgMatrix = []
+for j in range(10):#range(receiver.nElements):
 	
-	#Nmatrix = []
+	S1 = []
+	S2 = []
+	S3 = []
+	a11 = 0
+	a12 = 0
+	a13 = 0
+	a22 = 0
+	a23 = 0
+	a33 = 0
+	
+	
 	for i in range(emitter.nElements):
 		
 		delx, dely, delz = (receiverDivided[j]+emitterDivided[i])
@@ -140,6 +146,7 @@ for j in range(1):#range(receiver.nElements):
 		dx = emitterDivided[i].width
 		dy = emitterDivided[i].depth
 		dz = emitterDivided[i].height
+				
 		
 		S1.append([
 			[delx + dx, dely, delz],
@@ -176,42 +183,138 @@ for j in range(1):#range(receiver.nElements):
 			[delx - dx, dely + dy, delz - dz]
 		])
 		
-		print(S1[0])
+		#part of code to secure non existing blocks - there is risk that we will count magnetic field to block that doesn't exist especially near border blocks so we have to get rid of that part of S vector
 		
-		#deleteNotExisting(S1, emitter)
-		#deleteNotExisting(S2, emitter)
-		#deleteNotExisting(S3, emitter)NOT WORKING
+		S1deletion = []
+		S2deletion = []
+		S3deletion = []
 		
-		a11 = formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
-		a12 = formulas.calculateNxy(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
-		a13 = formulas.calculateNxy(delx, delz, dely, dx, dz, dy, S1[i], S2[i], S3[i])
+		if emitterDivided[i].xpoz-dx<emitter.xpoz:
+			S1deletion.append(1)
+			
+			S2deletion.append(1)
+			S2deletion.append(3)
+			S2deletion.append(9)
+			S2deletion.append(11)
+			
+			S2deletion.append(1)
+			S2deletion.append(2)
+			S2deletion.append(3)
+			S2deletion.append(7)
+
+		if emitterDivided[i].xpoz+dx>emitter.xpoz+emitter.width:
+			S1deletion.append(0)
+			S2deletion.append(0)
+			S2deletion.append(2)
+			S2deletion.append(8)
+			S2deletion.append(10)
+			S3deletion.append(0)
+			S3deletion.append(4)
+			S3deletion.append(5)
+			S3deletion.append(6)
+		
+		if emitterDivided[i].ypoz-dy<emitter.ypoz:
+			S1deletion.append(3)
+			S2deletion.append(2)
+			S2deletion.append(3)
+			S2deletion.append(5)
+			S2deletion.append(7)
+			S3deletion.append(2)
+			S3deletion.append(3)
+			S3deletion.append(4)
+			
+		if emitterDivided[i].ypoz+dy>emitter.ypoz+emitter.depth:
+			S1deletion.append(2)
+			S2deletion.append(0)
+			S2deletion.append(1)
+			S2deletion.append(4)
+			S2deletion.append(6)
+			S3deletion.append(0)
+			S3deletion.append(1)
+			S3deletion.append(5)
+			S3deletion.append(6)
+			S3deletion.append(7)
+		
+		if emitterDivided[i].zpoz-dz<emitter.zpoz:
+			S1deletion.append(5)
+			S2deletion.append(6)
+			S2deletion.append(7)
+			S2deletion.append(10)
+			S2deletion.append(11)
+			S3deletion.append(3)
+			S3deletion.append(4)
+			S3deletion.append(5)
+			S3deletion.append(7)
+			
+		if emitterDivided[i].zpoz+dz>emitter.zpoz+emitter.height:
+			S1deletion.append(4)
+			S2deletion.append(4)
+			S2deletion.append(5)
+			S2deletion.append(8)
+			S2deletion.append(9)
+			S3deletion.append(0)
+			S3deletion.append(1)
+			S3deletion.append(2)
+			S3deletion.append(6)
+		
+		#getting rid of repeating elements
+		S1deletion = list(set(S1deletion))
+		S2deletion = list(set(S2deletion))
+		S3deletion = list(set(S3deletion))
+		
+		S1deletion.sort()
+		S2deletion.sort()
+		S3deletion.sort()
+		
+		#reverse vectors to avoid mess with changing array indexes now we will delete from last element not from first
+		S1deletion.reverse()
+		S2deletion.reverse()
+		S3deletion.reverse()
+		
+		
+		#delete those outside of block object
+		
+		for k in S1deletion:
+			del(S1[i][k])
+			
+		for k in S2deletion:
+			del(S2[i][k])
+			
+		for k in S3deletion:
+			del(S3[i][k])
+		#print (S1deletion, S2deletion, S3deletion)
+		#exit()
+			
+		
+		#sum up to crate average later
+		a11 += formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		a12 += formulas.calculateNxy(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		a13 += formulas.calculateNxy(delx, delz, dely, dx, dz, dy, S1[i], S2[i], S3[i])
 		#a21 = a12
-		a22 = formulas.calculateNxx(dely, delx, delz, dy, dx, dz, S1[i], S2[i], S3[i])
-		a23 = formulas.calculateNxy(dely, delz, delx, dy, dz, dx, S1[i], S2[i], S3[i])
+		a22 += formulas.calculateNxx(dely, delx, delz, dy, dx, dz, S1[i], S2[i], S3[i])
+		a23 += formulas.calculateNxy(dely, delz, delx, dy, dz, dx, S1[i], S2[i], S3[i])
 		#a31 = a13
 		#a32 = a23
-		a33 = formulas.calculateNxx(delz, dely, delx, dz, dy, dx, S1[i], S2[i], S3[i])
-		N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
+		a33 += formulas.calculateNxx(delz, dely, delx, dz, dy, dx, S1[i], S2[i], S3[i])
+		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
+	a11/=emitter.nElements
+	a12/=emitter.nElements
+	a13/=emitter.nElements
+	a22/=emitter.nElements
+	a23/=emitter.nElements
+	a33/=emitter.nElements
+	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])	
 	
+finalMatrix = [0,0,0,0,0,0,0,0,0]
+
+#create sum of all matrixes to calculate average
+for k in range(len(avgMatrix)):
+	for i in range(len(avgMatrix[0])):
+		finalMatrix[i] += avgMatrix[k][i]
 	
+#divide sum by all elements
+for k in range(len(avgMatrix[0])):
+	finalMatrix[i]/=len(avgMatrix)
 
 
-#print (emitterDivided[0].zpoz, receiverDivided[0].zpoz)
-#print(emitterDivided[0]+receiverDivided[0])
-
-#Create helpful S1, S2, S3 vectors for all cells
-
-
-
-
-Nxx = []
-Nxy = []
-
-
-#print(S1[0])
-#formulas.fsum(S1[0])
-
-
-
-
-
+print(finalMatrix)
