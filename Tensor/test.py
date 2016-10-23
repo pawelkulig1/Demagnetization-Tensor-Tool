@@ -22,9 +22,12 @@ class block:
 	def calcSmallSize(self):
 		ratio = self.nElements**(1/3)
 	
-		self.widthSmall = self.width/ratio;
+		self.widthSmall = self.width/ratio
+		#self.heightSmall = 1
+		#self.depthSmall = 1
 		self.heightSmall = self.height/ratio;
 		self.depthSmall = self.depth/ratio;
+		#print(self.widthSmall)
 	
 	#returns size of small blocks created from origin block
 	def getSmallSize(self):
@@ -101,9 +104,9 @@ class smallBlock:
 			
 
 '''
-#define big structure that is goind to be cut
-emitter = block(50,10,10,1000,0,0,0)
-receiver = block(50, 10, 10, 1000, 0, -20 , 0)
+#define big structure that is going to be cut
+emitter = block(100,1,1,100,0,0,0)
+receiver = block(100, 1, 1, 1000, 0,0,0)
 
 
 #for each small part create object
@@ -112,6 +115,7 @@ receiver = block(50, 10, 10, 1000, 0, -20 , 0)
 emitterDivided = []
 for i in range(emitter.nElements):
 	x, y, z = emitter.smallPoz(i)
+	#print(x,y,z)
 	dx, dy, dz = emitter.getSmallSize()
 	emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
@@ -122,12 +126,15 @@ for i in range(receiver.nElements):
 	receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
 
+print (receiver.nElements, emitter.nElements, emitter.getSmallSize())
+
 #Create helpful S1, S2, S3 vectors for all cells
 
 
 avgMatrix = []
-for j in range(10):#range(receiver.nElements):
+for j in range(receiver.nElements):
 	
+	print(j, "/", receiver.nElements)
 	S1 = []
 	S2 = []
 	S3 = []
@@ -147,6 +154,8 @@ for j in range(10):#range(receiver.nElements):
 		dy = emitterDivided[i].depth
 		dz = emitterDivided[i].height
 				
+		
+		
 		
 		S1.append([
 			[delx + dx, dely, delz],
@@ -275,9 +284,12 @@ for j in range(10):#range(receiver.nElements):
 		#delete those outside of block object
 		
 		for k in S1deletion:
+			#print(S1[i][k])
 			del(S1[i][k])
 			
+			
 		for k in S2deletion:
+			#print(S2[i][k])
 			del(S2[i][k])
 			
 		for k in S3deletion:
@@ -296,6 +308,7 @@ for j in range(10):#range(receiver.nElements):
 		#a31 = a13
 		#a32 = a23
 		a33 += formulas.calculateNxx(delz, dely, delx, dz, dy, dx, S1[i], S2[i], S3[i])
+		
 		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
 	a11/=emitter.nElements
 	a12/=emitter.nElements
@@ -303,7 +316,8 @@ for j in range(10):#range(receiver.nElements):
 	a22/=emitter.nElements
 	a23/=emitter.nElements
 	a33/=emitter.nElements
-	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])	
+	#print(a33)
+	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
 	
 finalMatrix = [0,0,0,0,0,0,0,0,0]
 
@@ -314,7 +328,7 @@ for k in range(len(avgMatrix)):
 	
 #divide sum by all elements
 for k in range(len(avgMatrix[0])):
-	finalMatrix[i]/=len(avgMatrix)
+	finalMatrix[k]/=len(avgMatrix)
 
 
 print(finalMatrix)
