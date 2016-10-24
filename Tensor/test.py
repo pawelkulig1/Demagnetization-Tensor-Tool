@@ -18,7 +18,7 @@ class block:
 		self.calcSmallSize()
 		
 		
-		
+		#getting small object size
 	def calcSmallSize(self):
 		ratio = self.nElements**(1/3)
 	
@@ -106,8 +106,8 @@ class smallBlock:
 
 '''
 #define big structure that is going to be cut
-emitter = block(300, 300, 1, 900, 0, 0, 0)
-receiver = block(300, 300, 1, 900, 0, 0, 0)
+emitter = block(1000, 1, 1, 1000, 0, 0, 0)
+receiver = block(1000, 1, 1, 1000, 0, 0, 0)
 
 
 #for each small part create object
