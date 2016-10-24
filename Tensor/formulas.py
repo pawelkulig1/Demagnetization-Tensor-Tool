@@ -28,11 +28,11 @@ def f(x,y,z):
 	if x==0:
 		part3 = 0
 	else:
-		part3 = x*y*z*((y*z)/(x*R))
+		part3 = x*y*z*mt.atan((y*z)/(x*R))
 	
 	#solving 0 division problem here
 	
-	part4 = (1/6)*R*(2*x**2 - y**2 - z**2)
+	part4 = (1/6.0)*R*(2*x**2 - y**2 - z**2)
 	
 	return part1 + part2 - part3 + part4
 	
@@ -58,29 +58,29 @@ def g(x,y,z):
 	if y==0 and z==0:
 		part2 = 0
 	else:
-		part2 = (1/6)*y*(3*z**2 - y**2) * mt.asinh(x/(mt.sqrt(y**2 + z**2)))
+		part2 = (1/6.0)*y*(3*z**2 - y**2) * mt.asinh(x/(mt.sqrt(y**2 + z**2)))
 		
 	if x==0 and z==0:
 		part3 = 0
 	else:
-		part3 =(1/6)*x*(3*z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
+		part3 =(1/6.0)*x*(3*z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
 	
 	if y==0:
 		part4 = 0
 	else:
-		part4 = 0.5*y**2*z * mt.atan((x*z)/(y*R))
+		part4 = 0.5*(y**2)*z * mt.atan((x*z)/(y*R))
 		
 	if x==0:
 		part5 = 0
 	else:
-		part5 = 0.5*x**2*z * mt.atan((y*z)/(x*R))
+		part5 = 0.5*(x**2)*z * mt.atan((y*z)/(x*R))
 		
 	if z==0:
 		part6 = 0
 	else:
-		part6 = (1/6)*z**3 * mt.atan((x*y)/(z*R))
+		part6 = (1/6.0)*z**3 * mt.atan((x*y)/(z*R))
 		
-	part7 = (1/3)*x*y*R
+	part7 = (1/3.0)*x*y*R
 	
 	return part1+part2+part3-part4-part5-part6-part7
 
@@ -116,18 +116,3 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 		sum3 = sum3 + g(vect[0], vect[1], vect[2])
 	
 	return (1/(4*mt.pi*dx*dy*dz))*(8*g(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
-	
-
-#returns sum of f function with arguments from k vector	
-def fsum(k):
-	total = 0
-	for i in k:
-		total = total + f(i[0],i[1],i[2])
-	print(total)
-	
-#returns sum of f function with arguments from k vector
-def gsum(k):
-	total = 0
-	for i in k:
-		total = total + g(i[0],i[1],i[2])
-	print(total)

@@ -22,11 +22,12 @@ class block:
 	def calcSmallSize(self):
 		ratio = self.nElements**(1/3)
 	
-		self.widthSmall = self.width/ratio
-		#self.heightSmall = 1
-		#self.depthSmall = 1
-		self.heightSmall = self.height/ratio;
-		self.depthSmall = self.depth/ratio;
+		#self.widthSmall = self.width/ratio
+		self.widthSmall = 1
+		self.heightSmall = 1
+		self.depthSmall = 1
+		#self.heightSmall = self.height/ratio;
+		#self.depthSmall = self.depth/ratio;
 		#print(self.widthSmall)
 	
 	#returns size of small blocks created from origin block
@@ -105,8 +106,8 @@ class smallBlock:
 
 '''
 #define big structure that is going to be cut
-emitter = block(100,1,1,100,0,0,0)
-receiver = block(100, 1, 1, 1000, 0,0,0)
+emitter = block(300, 300, 1, 900, 0, 0, 0)
+receiver = block(300, 300, 1, 900, 0, 0, 0)
 
 
 #for each small part create object
