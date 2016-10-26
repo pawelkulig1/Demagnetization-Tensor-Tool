@@ -2,34 +2,33 @@ import math as mt
 import formulas
 
 class block:
-	def __init__(self, width=50, depth=10, height=10, nElements = 1000, xpoz=0, ypoz=0, zpoz=0):
+	def __init__(self, swidth=50, sdepth=10, sheight=10, wElements = 10, dElements=10, hElements=10, xpoz=0, ypoz=0, zpoz=0):
 		#define central cordinates of block
 		self.xpoz = xpoz
 		self.ypoz = ypoz
 		self.zpoz = zpoz
 
-		#define size of block in nm.
-		self.width = width
-		self.height = height
-		self.depth = depth
-
-		#how many pieces to consider
-		self.nElements = nElements
-		self.calcSmallSize()
+		self.widthSmall = swidth
+		self.depthSmall = sdepth
+		self.heightSmall = sheight
+		
+		self.wElements = wElements
+		self.dElements = dElements
+		self.hElements = hElements
+		
+		#calculate size of block in m.
+		
+		self.calcBigSize()
+		self.nElements = round((self.width*self.depth*self.height)/(self.widthSmall*self.depthSmall*self.heightSmall))
 		
 		
-		#getting small object size
-	def calcSmallSize(self):
-		ratio = self.nElements**(1/3)
-	
-		#self.widthSmall = self.width/ratio
-		self.widthSmall = 1
-		self.heightSmall = 1
-		self.depthSmall = 1
-		#self.heightSmall = self.height/ratio;
-		#self.depthSmall = self.depth/ratio;
-		#print(self.widthSmall)
-	
+		#calculate big object size
+	def calcBigSize(self):
+		self.width = self.widthSmall*self.wElements
+		self.depth = self.depthSmall*self.dElements
+		self.height = self.heightSmall*self.hElements
+		
+		
 	#returns size of small blocks created from origin block
 	def getSmallSize(self):
 		return self.widthSmall, self.depthSmall, self.heightSmall
@@ -89,25 +88,9 @@ class smallBlock:
 		return mt.sqrt((self.xpoz-other.xpoz)**2 + (self.ypoz-other.ypoz)**2 + (self.zpoz-other.zpoz)**2)
 
 
-#deleting not existing elements from Sn vectors (when cell is on corner or in wall it has less neighbours, for example when cell is left bottom corner it has lack of bottom neighbour
-'''def deleteNotExisting(Sn, block1):
-	source = block1
-	
-	for j in range(len(Sn)):
-		counter = 0
-		for i in range(len(Sn[j])):
-			if (Sn[j][counter][0]<source.xpoz or Sn[j][counter][0]>(source.xpoz+source.width)) or (Sn[j][counter][1]<source.ypoz or Sn[j][counter][1]>(source.ypoz+source.depth)) or (Sn[j][counter][2]<source.zpoz or Sn[j][counter][2]>(source.zpoz+source.height)):
-				del(Sn[j][counter])
-				counter-=1
-				#continue
-			
-			counter+=1
-			
-
-'''
 #define big structure that is going to be cut
-emitter = block(1000, 1, 1, 1000, 0, 0, 0)
-receiver = block(1000, 1, 1, 1000, 0, 0, 0)
+emitter = block(2e-7, 1e-9, 1e-9, 200, 1, 1)
+receiver = block(2e-7, 1e-9, 1e-9, 200, 1, 1)
 
 
 #for each small part create object
