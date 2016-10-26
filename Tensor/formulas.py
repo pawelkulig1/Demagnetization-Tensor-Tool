@@ -84,6 +84,7 @@ def g(x,y,z):
 	
 	return part1+part2+part3-part4-part5-part6-part7
 
+
 #S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
 def calculateNxx(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 	sum1 = 0
@@ -92,14 +93,19 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 	
 	for vect in S1:
 		sum1 = sum1 + f(vect[0], vect[1], vect[2])
+		#print(sum1)
 	
 	for vect in S2:
 		sum2 = sum2 + f(vect[0], vect[1], vect[2])
 		
 	for vect in S3:
 		sum3 = sum3 + f(vect[0], vect[1], vect[2])
-		
-	return (1/(4*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
+	
+	
+	#print (sum1, sum2, sum3)
+	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
+	
+	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
 def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 	sum1 = 0
@@ -116,3 +122,4 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 		sum3 = sum3 + g(vect[0], vect[1], vect[2])
 	
 	return (1/(4*mt.pi*dx*dy*dz))*(8*g(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
+	

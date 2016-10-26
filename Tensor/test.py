@@ -36,7 +36,7 @@ class block:
 	'''
 		return x,y,z cordinates for small block with given number, numbers goes from bottom-front-left corner to top-back-right (from 0 to (n-1)) it can be understood as 2-dimensional arrays stacked level by level
 	'''
-	def smallPoz(self, number):
+	def smallPoz(self, number): #return cordinates of smallBlock center
 		if self.width==0:
 			raise NameError("Probably block smallSize was not called")
 		
@@ -89,8 +89,8 @@ class smallBlock:
 
 
 #define big structure that is going to be cut
-emitter = block(2e-7, 1e-9, 1e-9, 200, 1, 1)
-receiver = block(2e-7, 1e-9, 1e-9, 200, 1, 1)
+emitter = block(2e-10, 1e-9, 1e-9, 200, 1, 1)
+receiver = block(2e-10, 1e-9, 1e-9, 200, 1, 1)
 
 
 #for each small part create object
@@ -99,8 +99,9 @@ receiver = block(2e-7, 1e-9, 1e-9, 200, 1, 1)
 emitterDivided = []
 for i in range(emitter.nElements):
 	x, y, z = emitter.smallPoz(i)
-	#print(x,y,z)
+	#print("%.12f" %x, "%.12f" %y, "%.12f" %z,)
 	dx, dy, dz = emitter.getSmallSize()
+	#print("%.12f" %dx, "%.12f" %dy, "%.12f" %dz)
 	emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
 receiverDivided = []
@@ -110,15 +111,23 @@ for i in range(receiver.nElements):
 	receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
 
+
 print (receiver.nElements, emitter.nElements, emitter.getSmallSize())
+print (receiver.width, receiver.depth, receiver.height)
 
 #Create helpful S1, S2, S3 vectors for all cells
+
+
+print(receiverDivided[0]+emitterDivided[199])
+
+
 
 
 avgMatrix = []
 for j in range(receiver.nElements):
 	
-	print(j, "/", receiver.nElements)
+	#print(j, "/", receiver.nElements)
+	#print(".", end="", flush=True)
 	S1 = []
 	S2 = []
 	S3 = []
@@ -128,7 +137,7 @@ for j in range(receiver.nElements):
 	a22 = 0
 	a23 = 0
 	a33 = 0
-	
+	#print (a11)
 	
 	for i in range(emitter.nElements):
 		
@@ -282,8 +291,15 @@ for j in range(receiver.nElements):
 		#exit()
 			
 		
+		print(dx, dy,dz)
 		#sum up to crate average later
 		a11 += formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		if a11>25000:
+			print("weird moment - 1:", delx, dely, delz, dx, dy, dz, S1[i-1], S2[i-1], S3[i-1])
+			print("weird moment:", delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+			print(formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i]))
+			
+			exit(0)
 		a12 += formulas.calculateNxy(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
 		a13 += formulas.calculateNxy(delx, delz, dely, dx, dz, dy, S1[i], S2[i], S3[i])
 		#a21 = a12
@@ -292,19 +308,21 @@ for j in range(receiver.nElements):
 		#a31 = a13
 		#a32 = a23
 		a33 += formulas.calculateNxx(delz, dely, delx, dz, dy, dx, S1[i], S2[i], S3[i])
-		
+		print ("a11: ",a11)
 		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
-	a11/=emitter.nElements
-	a12/=emitter.nElements
-	a13/=emitter.nElements
-	a22/=emitter.nElements
-	a23/=emitter.nElements
-	a33/=emitter.nElements
+	print("======================")
+	#print ("Em el: ", emitter.nElements)
+	a11=a11/emitter.nElements
+	a12=a12/emitter.nElements
+	a13=a13/emitter.nElements
+	a22=a22/emitter.nElements
+	a23=a23/emitter.nElements
+	a33=a33/emitter.nElements
 	#print(a33)
 	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
 	
 finalMatrix = [0,0,0,0,0,0,0,0,0]
-
+print("avgMatrix: ", avgMatrix[0])
 #create sum of all matrixes to calculate average
 for k in range(len(avgMatrix)):
 	for i in range(len(avgMatrix[0])):
@@ -314,5 +332,6 @@ for k in range(len(avgMatrix)):
 for k in range(len(avgMatrix[0])):
 	finalMatrix[k]/=len(avgMatrix)
 
+print(len(avgMatrix))
 
 print(finalMatrix)
