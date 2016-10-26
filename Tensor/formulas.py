@@ -104,7 +104,7 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 	
 	#print (sum1, sum2, sum3)
 	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
-	
+	#znalazlem wreszcie ! chodzi o to że jeżeli S1 sklada sie z jednego skladnika to 8*f(delx, dely,delz) jest praktycznie takie samo jak 4*sum1 co powoduje ze po odjeciu dostajemy wartosc rzędu 1.26e-27 i dlatego wyniki tak wybijaja do gory
 	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
 def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
