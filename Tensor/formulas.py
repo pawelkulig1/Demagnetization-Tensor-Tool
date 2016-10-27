@@ -125,17 +125,17 @@ def f(x,y,z):
 	
 	#solving 0 division problem here
 		
-	if x==0 and z==0:
+	if x==0 and z==0 or y==0:
 		part1=0
 	else:
 		part1 = 0.5*y*(z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
 	
-	if x==0 and y==0:
+	if x==0 and y==0 or z==0:
 		part2=0
 	else:
 		part2 = 0.5*z*(y**2 - x**2) * mt.asinh(z/(mt.sqrt(x**2 + y**2)))
 		
-	if x==0:
+	if x==0 or y==0 or z==0:
 		part3 = 0
 	else:
 		part3 = x*y*z*mt.atan((y*z)/(x*R))
@@ -194,20 +194,18 @@ def g(x,y,z):
 	
 	return part1+part2+part3-part4-part5-part6-part7
 
-
+#dist0 used to recognise if this is S1, S2 or S3 vector Block
 def dist0(x,y,z):
 	w = mt.sqrt(x**2+y**2+z**2)
 	#print(w)
 	if w==1:
 		return 1
-	if w>1 and w<mt.sqrt(3):
+	if w>1 and w<mt.sqrt(3)-0.01:
 		return 2
 	else:
 		return 3
 
-
-def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
-		
+def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
 	S1 = []
 	S2 = []
 	S3 = []
@@ -219,7 +217,14 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 	zmax=emitter.height+emitter.zpoz
 	zmin=emitter.zpoz
 
+	smallBx, smallBy, smallBz = emitter.smallPoz(i)
+	#print(smallBx, smallBy, smallBz)
 	
+	emitdx = emitter.widthSmall
+	emitdy = emitter.depthSmall
+	emitdz = emitter.heightSmall
+
+	#print(emitdx, emitdy, emitdz)
 
 	for x in range(-1,2,1):
 		for y in range(-1,2,1):
@@ -227,7 +232,9 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 				if x==0 and y==0 and z==0:
 					continue
 
-				if x*dx+delx<xmax and delx - x*dx>xmin and y*dy+dely<ymax and dely-y*dy>ymin and z*dz+delz<zmax and delz-z*dz>zmin:
+				if smallBx+emitdx*x<xmax and smallBx + x*emitdx>xmin and smallBy+emitdy*y<ymax and smallBy+emitdy*y>ymin and smallBz+emitdz*z<zmax and smallBz+emitdz*z>zmin:
+					#print(smallBx,smallBx+emitdx*x, smallBy+emitdy*y, smallBz+emitdz*z)
+					
 					if dist0(x,y,z)==1:
 						S1.append([x,y,z])
 						continue
@@ -238,7 +245,9 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 			
 					if dist0(x,y,z)==3:
 						S3.append([x,y,z])
-			
+	
+	#print(S1, S2, S3)
+	#print("=========")		
 	for i in range(len(S1)):
 		S1[i][0] = S1[i][0]*dx + delx
 		S1[i][1] = S1[i][1]*dy + dely
@@ -253,7 +262,10 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 		S3[i][0] = S3[i][0]*dx + delx
 		S3[i][1] = S3[i][1]*dy + dely
 		S3[i][2] = S3[i][2]*dz + delz
-		
+	
+	#print(S1, S2, S3)
+	
+	
 	'''	
 	S1 =([delx + dx, dely, delz],
 		[delx - dx, dely, delz], 
@@ -311,13 +323,13 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 
 
 #S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
-def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
+def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, i):
 	sum1 = 0.0
 	sum2 = 0.0
 	sum3 = 0.0
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
+	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i)
 	
-	print(S1, S2, S3)
+	#print(S1, S2, S3)
 	for vect in S1:
 		sum1 = sum1 + f(vect[0], vect[1], vect[2])
 		#print(sum1)
@@ -327,16 +339,17 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
 		
 	for vect in S3:
 		sum3 = sum3 + f(vect[0], vect[1], vect[2])
-		
+	
+	print(delx, dely, delz, dx,dy,dz, S1, S2, S3, "f", f(delx,dely,delz))
 	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
 	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
-def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
+def calculateNxy(delx, dely, delz, dx, dy, dz, emitter, i):
 	sum1 = 0
 	sum2 = 0
 	sum3 = 0
 	
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
+	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i)
 	
 	for vect in S1:
 		sum1 = sum1 + g(vect[0], vect[1], vect[2])

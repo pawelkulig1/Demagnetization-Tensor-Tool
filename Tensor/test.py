@@ -4,8 +4,8 @@ from formulas import *
 
 
 #define big structure that is going to be cut
-emitter = block(2e-10, 1e-9, 1e-9, 200, 1, 1)
-receiver = block(2e-10, 1e-9, 1e-9, 200, 1, 1)
+emitter = block(2e-10, 1e-9, 1e-9, 1, 1, 1, 1e-8, 0, 0)
+receiver = block(2e-10, 1e-9, 1e-9, 1, 1, 1, 0, 0, 0)
 
 
 #for each small part create object
@@ -165,20 +165,20 @@ for j in range(receiver.nElements):
 		'''
 		
 		#sum up to crate average later
-		a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
+		a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter, i)
 		#print(a11)	
-		a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
-		a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
+		a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter, i)
+		a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter, i)
 		#a21 = a12
-		a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
-		a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter)
+		a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter, i)
+		a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter, i)
 		#a31 = a13
 		#a32 = a23
-		a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
-		print(a11)
+		a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter, i)
+		print("a11: ",a11)
 		#print(delx, dely, delz)
 		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
-	print("======================")
+	#print("======================")
 	
 	#print ("Em el: ", emitter.nElements)
 	a11=a11/emitter.nElements
@@ -187,7 +187,7 @@ for j in range(receiver.nElements):
 	a22=a22/emitter.nElements
 	a23=a23/emitter.nElements
 	a33=a33/emitter.nElements
-	print(a11)
+	#print(a11)
 	exit(0)
 	#print(a33)
 	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])

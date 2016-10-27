@@ -1,12 +1,12 @@
 
 import math as mt
 
-xmax=2
+xmax=1e-08
 xmin=0
-ymax=1
-ymin=-1
-zmax=1
-zmin=-1
+ymax=2e-10
+ymin=0
+zmax=2e-10
+zmin=0
 
 
 
@@ -28,14 +28,21 @@ S3 = []
 
 
 #def generateGrid(delx, dely, delz, dx, dy, dz, emitter):
-
+#DANE WEJSCIOWE DO FUNKCJI
 dx=1e-10
 dy=1e-10
 dz=1e-10
 
-delx = 2e-10
-dely = 2e-10
-delz = 2e-10
+delx = 1e-10
+dely = 1e-10
+delz = 1e-10
+
+#DANE WEJSCIOWE DO FUNKCJI
+emiterdx = 1e-10
+emiterdy = 1e-10
+emiterdz = 1e-10 
+
+
 
 for x in range(-1,2,1):
 	for y in range(-1,2,1):
@@ -43,7 +50,8 @@ for x in range(-1,2,1):
 			if x==0 and y==0 and z==0:
 				continue
 
-			if x*dx+delx<xmax and delx - x*dx>xmin and y*dy+dely<ymax and dely-y*dy>ymin and z*dz+delz<zmax and delz-z*dz>zmin:
+			if x*emiterdx<=xmax and emiterdx - emiterdx*x>=xmin and emiterdy+emiterdy*y<=ymax and emiterdy-emiterdy*y>=ymin and emiterdz+emiterdz*z<=zmax and emiterdz-emiterdz*z>=zmin:
+				print(x*emiterdx+emiterdx,y,z)
 				if dist0(x,y,z)==1:
 					S1.append([x,y,z])
 					continue
@@ -55,7 +63,7 @@ for x in range(-1,2,1):
 				if dist0(x,y,z)==3:
 					S3.append([x,y,z])
 		
-for i in range(len(S1)):
+'''for i in range(len(S1)):
 	S1[i][0] = S1[i][0]*dx + delx
 	S1[i][1] = S1[i][1]*dy + dely
 	S1[i][2] = S1[i][2]*dz + delz
@@ -71,6 +79,6 @@ for i in range(len(S3)):
 	S3[i][2] = S3[i][2]*dz + delz
 	
 
-
+'''
 
 print(S1, S2, S3)
