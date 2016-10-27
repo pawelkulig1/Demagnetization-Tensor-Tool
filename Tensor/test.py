@@ -19,7 +19,7 @@ class block:
 		#calculate size of block in m.
 		
 		self.calcBigSize()
-		self.nElements = round((self.width*self.depth*self.height)/(self.widthSmall*self.depthSmall*self.heightSmall))
+		self.nElements = int(round((self.width*self.depth*self.height)/(self.widthSmall*self.depthSmall*self.heightSmall)))
 		
 		
 		#calculate big object size
@@ -294,9 +294,10 @@ for j in range(receiver.nElements):
 		print(dx, dy,dz)
 		#sum up to crate average later
 		a11 += formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+		print("Nxx(",delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i], ")")
 		if a11>25000:
-			print("weird moment - 1:", delx, dely, delz, dx, dy, dz, S1[i-1], S2[i-1], S3[i-1])
-			print("weird moment:", delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i])
+			#print("weird moment - 1:", delx, dely, delz, dx, dy, dz, S1[i-1], S2[i-1], S3[i-1])
+			
 			print(formulas.calculateNxx(delx, dely, delz, dx, dy, dz, S1[i], S2[i], S3[i]))
 			
 			exit(0)

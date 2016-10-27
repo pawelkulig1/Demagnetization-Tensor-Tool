@@ -87,24 +87,26 @@ def g(x,y,z):
 
 #S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
 def calculateNxx(delx, dely, delz, dx, dy, dz, S1, S2, S3):
-	sum1 = 0
-	sum2 = 0
-	sum3 = 0
+	sum1 = 0.0
+	sum2 = 0.0
+	sum3 = 0.0
 	
 	for vect in S1:
 		sum1 = sum1 + f(vect[0], vect[1], vect[2])
 		#print(sum1)
+	print("sum1: ", sum1, f(delx, dely, delz), 8*f(delx, dely, delz)-4*sum1)
 	
 	for vect in S2:
 		sum2 = sum2 + f(vect[0], vect[1], vect[2])
 		
+	print("sum2: ", sum2)
 	for vect in S3:
 		sum3 = sum3 + f(vect[0], vect[1], vect[2])
-	
-	
+	print("sum3: ", sum3)
+	p1 = (1/(4.0*mt.pi*dx*dy*dz))
+	print("p1: ", p1)
 	#print (sum1, sum2, sum3)
-	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
-	#znalazlem wreszcie ! chodzi o to że jeżeli S1 sklada sie z jednego skladnika to 8*f(delx, dely,delz) jest praktycznie takie samo jak 4*sum1 co powoduje ze po odjeciu dostajemy wartosc rzędu 1.26e-27 i dlatego wyniki tak wybijaja do gory
+	return p1*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
 	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
 def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
@@ -114,6 +116,8 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, S1, S2, S3):
 	
 	for vect in S1:
 		sum1 = sum1 + g(vect[0], vect[1], vect[2])
+	
+	
 	
 	for vect in S2:
 		sum2 = sum2 + g(vect[0], vect[1], vect[2])
