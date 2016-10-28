@@ -66,7 +66,7 @@ class block:
 	
 	
 	def ifSmallBlockExists(self, x,y,z):
-		print(self.xpoz)
+		#print(self.xpoz)
 		if x>self.width+self.xpoz-(self.widthSmall/2):
 			return 0
 		
@@ -210,7 +210,7 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
 	S2 = []
 	S3 = []
 
-	xmax=emitter.width+emitter.xpoz
+	'''xmax=emitter.width+emitter.xpoz
 	xmin=emitter.xpoz
 	ymax=emitter.depth+emitter.ypoz
 	ymin=emitter.ypoz
@@ -264,9 +264,9 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
 		S3[i][2] = S3[i][2]*dz + delz
 	
 	#print(S1, S2, S3)
+	'''
 	
-	
-	'''	
+		
 	S1 =([delx + dx, dely, delz],
 		[delx - dx, dely, delz], 
 		[delx, dely + dy, delz],
@@ -301,7 +301,7 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
 		[delx - dx, dely + dy, delz - dz]
 		]
 	
-	print('---')
+	'''print('---')
 	print (S1)
 	print('---')
 	
@@ -340,7 +340,7 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, i):
 	for vect in S3:
 		sum3 = sum3 + f(vect[0], vect[1], vect[2])
 	
-	print(delx, dely, delz, dx,dy,dz, S1, S2, S3, "f", f(delx,dely,delz))
+	#print(delx, dely, delz, dx,dy,dz, S1, S2, S3, "f", f(delx,dely,delz))
 	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
 	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 

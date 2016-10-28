@@ -4,8 +4,8 @@ from formulas import *
 
 
 #define big structure that is going to be cut
-emitter = block(2e-10, 1e-9, 1e-9, 1, 1, 1, 1e-8, 0, 0)
-receiver = block(2e-10, 1e-9, 1e-9, 1, 1, 1, 0, 0, 0)
+emitter = block(2e-10, 1e-9, 1e-9, 200, 1, 1, 0, 0, 0)
+receiver = block(2e-10, 1e-9, 1e-9, 200, 1, 1, 0, 0, 0)
 
 
 #for each small part create object
@@ -175,7 +175,7 @@ for j in range(receiver.nElements):
 		#a31 = a13
 		#a32 = a23
 		a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter, i)
-		print("a11: ",a11)
+		#print("a11: ",a11)
 		#print(delx, dely, delz)
 		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
 	#print("======================")
@@ -188,12 +188,12 @@ for j in range(receiver.nElements):
 	a23=a23/emitter.nElements
 	a33=a33/emitter.nElements
 	#print(a11)
-	exit(0)
+	#exit(0)
 	#print(a33)
 	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
 	
 finalMatrix = [0,0,0,0,0,0,0,0,0]
-print("avgMatrix: ", avgMatrix[0])
+#print("avgMatrix: ", avgMatrix[0])
 #create sum of all matrixes to calculate average
 for k in range(len(avgMatrix)):
 	for i in range(len(avgMatrix[0])):
