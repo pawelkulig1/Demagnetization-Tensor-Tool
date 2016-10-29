@@ -104,7 +104,8 @@ class smallBlock:
 
 	#overloading addition returns delta(x), delta(y), delta(z)
 	def __add__(self, other):
-		return abs(self.xpoz-other.xpoz), abs(self.ypoz-other.ypoz), abs(self.zpoz-other.zpoz)
+		return (self.xpoz-other.xpoz), (self.ypoz-other.ypoz), (self.zpoz-other.zpoz)
+		#return abs(self.xpoz-other.xpoz), abs(self.ypoz-other.ypoz), abs(self.zpoz-other.zpoz) UWAGA KTÓRA WERSJA MA BYĆ?
 		
 	#overloading multiplication to get distance between two blocks in nm.	
 	def __mul__(self, other): 
@@ -194,79 +195,9 @@ def g(x,y,z):
 	
 	return part1+part2+part3-part4-part5-part6-part7
 
-#dist0 used to recognise if this is S1, S2 or S3 vector Block
-def dist0(x,y,z):
-	w = mt.sqrt(x**2+y**2+z**2)
-	#print(w)
-	if w==1:
-		return 1
-	if w>1 and w<mt.sqrt(3)-0.01:
-		return 2
-	else:
-		return 3
 
-def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
-	S1 = []
-	S2 = []
-	S3 = []
+def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 
-	'''xmax=emitter.width+emitter.xpoz
-	xmin=emitter.xpoz
-	ymax=emitter.depth+emitter.ypoz
-	ymin=emitter.ypoz
-	zmax=emitter.height+emitter.zpoz
-	zmin=emitter.zpoz
-
-	smallBx, smallBy, smallBz = emitter.smallPoz(i)
-	#print(smallBx, smallBy, smallBz)
-	
-	emitdx = emitter.widthSmall
-	emitdy = emitter.depthSmall
-	emitdz = emitter.heightSmall
-
-	#print(emitdx, emitdy, emitdz)
-
-	for x in range(-1,2,1):
-		for y in range(-1,2,1):
-			for z in range(-1,2,1):
-				if x==0 and y==0 and z==0:
-					continue
-
-				if smallBx+emitdx*x<xmax and smallBx + x*emitdx>xmin and smallBy+emitdy*y<ymax and smallBy+emitdy*y>ymin and smallBz+emitdz*z<zmax and smallBz+emitdz*z>zmin:
-					#print(smallBx,smallBx+emitdx*x, smallBy+emitdy*y, smallBz+emitdz*z)
-					
-					if dist0(x,y,z)==1:
-						S1.append([x,y,z])
-						continue
-				
-					if dist0(x,y,z)==2:
-						S2.append([x,y,z])
-						continue
-			
-					if dist0(x,y,z)==3:
-						S3.append([x,y,z])
-	
-	#print(S1, S2, S3)
-	#print("=========")		
-	for i in range(len(S1)):
-		S1[i][0] = S1[i][0]*dx + delx
-		S1[i][1] = S1[i][1]*dy + dely
-		S1[i][2] = S1[i][2]*dz + delz
-		
-	for i in range(len(S2)):
-		S2[i][0] = S2[i][0]*dx + delz
-		S2[i][1] = S2[i][1]*dy + dely
-		S2[i][2] = S2[i][2]*dz + delz
-		
-	for i in range(len(S3)):
-		S3[i][0] = S3[i][0]*dx + delx
-		S3[i][1] = S3[i][1]*dy + dely
-		S3[i][2] = S3[i][2]*dz + delz
-	
-	#print(S1, S2, S3)
-	'''
-	
-		
 	S1 =([delx + dx, dely, delz],
 		[delx - dx, dely, delz], 
 		[delx, dely + dy, delz],
@@ -301,35 +232,17 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i):
 		[delx - dx, dely + dy, delz - dz]
 		]
 	
-	'''print('---')
-	print (S1)
-	print('---')
-	
-	
-	for i in range(len(S1)-1, -1, -1):
-		if(emitter.ifSmallBlockExists(ox, oy, oz)==0):
-			del(S1[i])
-	
-	for i in range(len(S2)-1, -1, -1):
-		if(emitter.ifSmallBlockExists(ox, oy, oz)==0):
-			del(S2[i])
-	
-	for i in range(len(S3)-1, -1, -1):
-		if(emitter.ifSmallBlockExists(S3[i][0], S3[i][1], S3[i][2])==0):
-			del(S3[i])
-	
-	'''
 	return S1, S2, S3
 
 
 #S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
-def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, i):
-	sum1 = 0.0
-	sum2 = 0.0
-	sum3 = 0.0
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i)
+def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
+	sum1 = 0
+	sum2 = 0
+	sum3 = 0
+	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
+	#print(S2)
 	
-	#print(S1, S2, S3)
 	for vect in S1:
 		sum1 = sum1 + f(vect[0], vect[1], vect[2])
 		#print(sum1)
@@ -340,16 +253,15 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, i):
 	for vect in S3:
 		sum3 = sum3 + f(vect[0], vect[1], vect[2])
 	
-	#print(delx, dely, delz, dx,dy,dz, S1, S2, S3, "f", f(delx,dely,delz))
-	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) #TU JEST LIPA Z JAKIEGOS POWODU
-	#return (1/(4*mt.pi*delx*dely*delz))*(8*f(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
 
-def calculateNxy(delx, dely, delz, dx, dy, dz, emitter, i):
+	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) 
+
+def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
 	sum1 = 0
 	sum2 = 0
 	sum3 = 0
 	
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter, i)
+	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
 	
 	for vect in S1:
 		sum1 = sum1 + g(vect[0], vect[1], vect[2])

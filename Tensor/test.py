@@ -4,8 +4,8 @@ from formulas import *
 
 
 #define big structure that is going to be cut
-emitter = block(1e-9, 1e-9, 1e-9, 100, 1, 1, 0, 0, 0)
-receiver = block(1e-9, 1e-9, 1e-9, 100, 1, 1, 0, 0, 0)
+emitter = block(1e-9, 1e-9, 1e-9, 20, 20, 1, 0, 0, 0)
+receiver = block(1e-9, 1e-9, 1e-9, 20, 20, 1, 0, 0, 0)
 
 
 #for each small part create object
@@ -58,111 +58,9 @@ for j in range(receiver.nElements):
 		dx = emitterDivided[i].width
 		dy = emitterDivided[i].depth
 		dz = emitterDivided[i].height
+		#print(delx, dely, delz)
 		
 		
-		'''S1deletion = []
-		S2deletion = []
-		S3deletion = []
-		
-		if emitterDivided[i].xpoz-dx<emitter.xpoz:
-			S1deletion.append(1)
-			
-			S2deletion.append(1)
-			S2deletion.append(3)
-			S2deletion.append(9)
-			S2deletion.append(11)
-			
-			S2deletion.append(1)
-			S2deletion.append(2)
-			S2deletion.append(3)
-			S2deletion.append(7)
-
-		if emitterDivided[i].xpoz+dx>emitter.xpoz+emitter.width:
-			S1deletion.append(0)
-			S2deletion.append(0)
-			S2deletion.append(2)
-			S2deletion.append(8)
-			S2deletion.append(10)
-			S3deletion.append(0)
-			S3deletion.append(4)
-			S3deletion.append(5)
-			S3deletion.append(6)
-		
-		if emitterDivided[i].ypoz-dy<emitter.ypoz:
-			S1deletion.append(3)
-			S2deletion.append(2)
-			S2deletion.append(3)
-			S2deletion.append(5)
-			S2deletion.append(7)
-			S3deletion.append(2)
-			S3deletion.append(3)
-			S3deletion.append(4)
-			
-		if emitterDivided[i].ypoz+dy>emitter.ypoz+emitter.depth:
-			S1deletion.append(2)
-			S2deletion.append(0)
-			S2deletion.append(1)
-			S2deletion.append(4)
-			S2deletion.append(6)
-			S3deletion.append(0)
-			S3deletion.append(1)
-			S3deletion.append(5)
-			S3deletion.append(6)
-			S3deletion.append(7)
-		
-		if emitterDivided[i].zpoz-dz<emitter.zpoz:
-			S1deletion.append(5)
-			S2deletion.append(6)
-			S2deletion.append(7)
-			S2deletion.append(10)
-			S2deletion.append(11)
-			S3deletion.append(3)
-			S3deletion.append(4)
-			S3deletion.append(5)
-			S3deletion.append(7)
-			
-		if emitterDivided[i].zpoz+dz>emitter.zpoz+emitter.height:
-			S1deletion.append(4)
-			S2deletion.append(4)
-			S2deletion.append(5)
-			S2deletion.append(8)
-			S2deletion.append(9)
-			S3deletion.append(0)
-			S3deletion.append(1)
-			S3deletion.append(2)
-			S3deletion.append(6)
-		
-		#getting rid of repeating elements
-		S1deletion = list(set(S1deletion))
-		S2deletion = list(set(S2deletion))
-		S3deletion = list(set(S3deletion))
-		
-		S1deletion.sort()
-		S2deletion.sort()
-		S3deletion.sort()
-		
-		#reverse vectors to avoid mess with changing array indexes now we will delete from last element not from first
-		S1deletion.reverse()
-		S2deletion.reverse()
-		S3deletion.reverse()
-		
-		
-		#delete those outside of block object
-		
-		for k in S1deletion:
-			#print(S1[i][k])
-			del(S1[i][k])
-			
-			
-		for k in S2deletion:
-			#print(S2[i][k])
-			del(S2[i][k])
-			
-		for k in S3deletion:
-			del(S3[i][k])
-		#print (S1deletion, S2deletion, S3deletion)
-		#exit()
-		'''
 		
 		#sum up to crate average later
 		a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
@@ -175,7 +73,8 @@ for j in range(receiver.nElements):
 		#a31 = a13
 		#a32 = a23
 		a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
-		#print("a11: ",a11)
+
+		#print("a22: ",a22)
 		#print(delx, dely, delz)
 		#N = [a11, a12, a13, a12, a22, a23, a13, a23, a33]
 	#print("======================")
@@ -187,7 +86,7 @@ for j in range(receiver.nElements):
 	a22=a22/emitter.nElements
 	a23=a23/emitter.nElements
 	a33=a33/emitter.nElements
-	print(a22)
+	#print(a22)
 	#exit(0)
 	#print(a33)
 	avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
@@ -203,6 +102,11 @@ for k in range(len(avgMatrix)):
 for k in range(len(avgMatrix[0])):
 	finalMatrix[k]/=len(avgMatrix)
 
-print(len(avgMatrix))
+#print(len(avgMatrix))
 
-print(finalMatrix)
+print("[",finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
+print("[",finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
+print("[",finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
+
+print("suma: ",sum(finalMatrix))
+
