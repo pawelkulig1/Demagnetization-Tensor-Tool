@@ -64,28 +64,6 @@ class block:
 				
 		return xpozSmall, ypozSmall, zpozSmall
 	
-	
-	def ifSmallBlockExists(self, x,y,z):
-		#print(self.xpoz)
-		if x>self.width+self.xpoz-(self.widthSmall/2):
-			return 0
-		
-		if x<self.xpoz+(self.widthSmall/2):
-			return 0
-		
-		if y>self.depth+self.ypoz-(self.depthSmall/2):
-			return 0
-		
-		if y<self.ypoz+(self.depthSmall/2):
-			return 0
-	
-		if z>self.height+self.zpoz-(self.heightSmall/2):
-			return 0
-		
-		if z<self.zpoz+(self.heightSmall/2):
-			return 0
-		
-		return 1
 
 class smallBlock:
 	def __init__(self, xpoz, ypoz, zpoz, width, depth, height):
@@ -99,30 +77,31 @@ class smallBlock:
 		self.height = height
 		self.depth = depth
 	
-	def getCoordinates(self):
-		return self.xpoz, self.ypoz, self.zpoz
 
 	#overloading addition returns delta(x), delta(y), delta(z)
 	def __add__(self, other):
 		return (self.xpoz-other.xpoz), (self.ypoz-other.ypoz), (self.zpoz-other.zpoz)
-		#return abs(self.xpoz-other.xpoz), abs(self.ypoz-other.ypoz), abs(self.zpoz-other.zpoz) UWAGA KTÓRA WERSJA MA BYĆ?
-		
-	#overloading multiplication to get distance between two blocks in nm.	
-	def __mul__(self, other): 
-		return mt.sqrt((self.xpoz-other.xpoz)**2 + (self.ypoz-other.ypoz)**2 + (self.zpoz-other.zpoz)**2)
+	
 
 def radius(x,y,z):
 	return mt.sqrt(x**2 + y**2 + z**2)
-	
+
+def wspolczynnik (delx,dely,delz, x,y,z, emitter):
+    xx = abs(x-delx)/(emitter.widthSmall)
+    yy = abs(y-dely)/(emitter.heightSmall)
+    zz = abs(z-delz)/(emitter.depthSmall)
+
+    if int(xx+yy+zz+0.5)==0:
+        return 8.0
+    if int(xx+yy+zz+0.5)==1:
+        return -4.0
+    if int(xx+yy+zz+0.5)==2:
+        return 2.0
+    else:
+        return -1.0
+
 def f(x,y,z):
 	R = radius(x, y, z)
-	
-	'''return (
-		0.5*y*(z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
-		+ 0.5*z*(y**2 - x**2) * mt.asinh(z/(mt.sqrt(x**2 + y**2)))
-		- x*y*z*((y*z)/(x*R))
-		+ (1/6)*R*(2*x**2 - y**2 - z**2)
-	)'''
 	
 	#solving 0 division problem here
 		
@@ -147,19 +126,8 @@ def f(x,y,z):
 	
 	return part1 + part2 - part3 + part4
 	
-
 def g(x,y,z):
 	R = radius(x, y, z)
-	'''
-	return (
-		x*y*z*mt.asinh(z/(mt.sqrt(x**2 + y**2)))
-		+ (1/6)*y*(3*z**2 - y**2) * mt.asinh(x/(mt.sqrt(y**2 + z**2)))
-		+ (1/6)*x*(3*z**2 - x**2) * mt.asinh(y/(mt.sqrt(x**2 + z**2)))
-		- 0.5*y**2*z * mt.atan((x*z)/(y*R))
-		- 0.5*x**2*z * mt.atan((y*z)/(x*R))
-		- (1/6)*z**3 * mt.atan((x*y)/(z*R))
-		- (1/3)*x*y*R
-	)'''
 		
 	if x == 0 and y==0:
 		part1 = 0
@@ -195,10 +163,8 @@ def g(x,y,z):
 	
 	return part1+part2+part3-part4-part5-part6-part7
 
-
-def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
-
-	S1 =([delx + dx, dely, delz],
+def generateSVectors(delx, dely, delz, dx, dy, dz):
+	'''S1 =([delx + dx, dely, delz],
 		[delx - dx, dely, delz], 
 		[delx, dely + dy, delz],
 		[delx, dely - dy, delz],
@@ -206,7 +172,7 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 		[delx, dely, delz - dz])
 		
 	
-	S2 =[
+	S2 =(
 		[delx + dx, dely + dy, delz],
 		[delx - dx, dely + dy, delz],
 		[delx + dx, dely - dy, delz],
@@ -219,58 +185,80 @@ def generateSVectors(delx, dely, delz, dx, dy, dz, emitter):
 		[delx - dx, dely, delz + dz],
 		[delx + dx, dely, delz - dz],
 		[delx - dx, dely, delz - dz]
-		]
+		)
 
-	S3= [
+	S3= (
 		[delx + dx, dely + dy, delz + dz],
 		[delx - dx, dely + dy, delz + dz],
 		[delx - dx, dely - dy, delz + dz],
 		[delx - dx, dely - dy, delz - dz],
 		[delx + dx, dely - dy, delz - dz],
 		[delx + dx, dely + dy, delz - dz],
-		[delx + dx, dely + dy, delz + dz],
+		[delx + dx, dely - dy, delz + dz],
 		[delx - dx, dely + dy, delz - dz]
-		]
+		)'''
 	
-	return S1, S2, S3
-
-
-#S1, S2, S3 are vectors of elements needed for sums, function calculates matrix factor
-def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
-	sum1 = 0
-	sum2 = 0
-	sum3 = 0
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
-	#print(S2)
-	
-	for vect in S1:
-		sum1 = sum1 + f(vect[0], vect[1], vect[2])
-		#print(sum1)
-	
-	for vect in S2:
-		sum2 = sum2 + f(vect[0], vect[1], vect[2])
+	'''S = ([delx + dx, dely, delz],
+		[delx - dx, dely, delz], 
+		[delx, dely + dy, delz],
+		[delx, dely - dy, delz],
+		[delx, dely, delz + dz],
+		[delx, dely, delz - dz],
+		[delx + dx, dely + dy, delz],
+		[delx - dx, dely + dy, delz],
+		[delx + dx, dely - dy, delz],
+		[delx - dx, dely - dy, delz],
+		[delx, dely + dy, delz + dz],
+		[delx, dely - dy, delz + dz],
+		[delx, dely + dy, delz - dz],
+		[delx, dely - dy, delz - dz],
+		[delx + dx, dely, delz + dz],
+		[delx - dx, dely, delz + dz],
+		[delx + dx, dely, delz - dz],
+		[delx - dx, dely, delz - dz],
+		[delx + dx, dely + dy, delz + dz],
+		[delx - dx, dely + dy, delz + dz],
+		[delx - dx, dely - dy, delz + dz],
+		[delx - dx, dely - dy, delz - dz],
+		[delx + dx, dely - dy, delz - dz],
+		[delx + dx, dely + dy, delz - dz],
+		[delx + dx, dely - dy, delz + dz],
+		[delx - dx, dely + dy, delz - dz]
+		)'''
 		
-	for vect in S3:
-		sum3 = sum3 + f(vect[0], vect[1], vect[2])
-	
+		
+		
+    
+    
+    
+	return S
 
-	return (1/(4.0*mt.pi*dx*dy*dz))*(8*f(delx, dely, delz)-(4*sum1) + 2*sum2 - sum3) 
+def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
+    xran = [delx-dx, delx, delx+dx]
+    yran = [dely-dy, dely, dely+dy]
+    zran = [delz-dz, delz, delz+dz]
+
+    Nxx = 0
+	
+    for x in xran:
+        for y in yran:
+            for z in zran:
+                Nxx += wspolczynnik(delx, dely, delz, x,y,z, emitter)*f(x,y,z)
+
+    
+    return Nxx
 
 def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
-	sum1 = 0
-	sum2 = 0
-	sum3 = 0
-	
-	S1, S2, S3 = generateSVectors(delx, dely, delz, dx, dy, dz, emitter)
-	
-	for vect in S1:
-		sum1 = sum1 + g(vect[0], vect[1], vect[2])
-	
-	for vect in S2:
-		sum2 = sum2 + g(vect[0], vect[1], vect[2])
-		
-	for vect in S3:
-		sum3 = sum3 + g(vect[0], vect[1], vect[2])
-	
-	return (1/(4*mt.pi*dx*dy*dz))*(8*g(delx, dely, delz)-4*sum1 + 2*sum2 - sum3)
+    xran = [delx-dx, delx, delx+dx]
+    yran = [dely-dy, dely, dely+dy]
+    zran = [delz-dz, delz, delz+dz]
+
+    Nxy = 0
+
+    for x in xran:
+        for y in yran:
+            for z in zran:
+                Nxy += wspolczynnik(delx, dely, delz, x,y,z, emitter)*g(x,y,z)
+    
+    return Nxy
 	
