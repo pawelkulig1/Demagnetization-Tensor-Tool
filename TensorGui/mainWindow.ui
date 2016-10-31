@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>924</width>
+    <height>645</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tensor Calculator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QPushButton" name="simulateButton">
+      <property name="text">
+       <string>Simulate</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="exitButton">
+      <property name="text">
+       <string>Exit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="helpButton">
+      <property name="text">
+       <string>Help</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="QProgressBar" name="simulationProgressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="emitterGroupBox">
+      <property name="title">
+       <string>Emitter</string>
+      </property>
+      <widget class="QRadioButton" name="emitterRecRadioButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>902</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Rectangular</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="emitterCylRadioButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>902</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Cyllindric</string>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="emitterElementsGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>380</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Elements</string>
+       </property>
+       <widget class="QLineEdit" name="emitterElementsDepthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterElementsWidthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>width</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterElementsDepthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>depth</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterElementsHeightLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>height</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterElementsWidthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_13">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterElementsHeightLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_15">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_18">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="emitterSizeGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Size</string>
+       </property>
+       <widget class="QLabel" name="emitterWidthMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterWidthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>width</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterHeightMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterHeightLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterDepthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>depth</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterDepthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterWidthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterHeightLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>height</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterDepthMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>230</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Position</string>
+       </property>
+       <widget class="QLineEdit" name="emitterYLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterXLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterYLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="emitterZLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>z</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterXLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="emitterZLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="collectorGroupBox">
+      <property name="title">
+       <string>Collector</string>
+      </property>
+      <widget class="QRadioButton" name="collectorCylRadioButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>902</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Cyllindric</string>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="collectorElementsGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>380</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Elements</string>
+       </property>
+       <widget class="QLineEdit" name="collectorElementsDepthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorElementsWidthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>width</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorElementsDepthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>depth</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorElementsHeightLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>height</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorElementsWidthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_52">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorElementsHeightLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_53">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_54">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>elements</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="collectorSizeGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Size</string>
+       </property>
+       <widget class="QLabel" name="collectorWidthMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorWidthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>width</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorHeightMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorHeightLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorDepthLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>depth</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorDepthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorWidthLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1e-9</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorHeightLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>height</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorDepthMetersLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>m</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QRadioButton" name="collectorRecRadioButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>902</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Rectangular</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="collectorPositionGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>230</y>
+         <width>281</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Position</string>
+       </property>
+       <widget class="QLineEdit" name="collectorYLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>60</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorXLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorYLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="collectorZLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>62</width>
+          <height>15</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>z</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorXLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="collectorZLineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>113</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QGroupBox" name="settingsGroupBox">
+      <property name="title">
+       <string>Settings</string>
+      </property>
+      <widget class="QLineEdit" name="threadNumberLineEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>20</y>
+         <width>101</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="threadsNumberLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>How many threads</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+   <zorder>simulationProgressBar</zorder>
+   <zorder>emitterGroupBox</zorder>
+   <zorder>exitButton</zorder>
+   <zorder>helpButton</zorder>
+   <zorder>simulateButton</zorder>
+   <zorder>collectorGroupBox</zorder>
+   <zorder>settingsGroupBox</zorder>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
