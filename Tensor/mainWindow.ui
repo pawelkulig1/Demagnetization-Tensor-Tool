@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>924</width>
-    <height>645</height>
+    <width>742</width>
+    <height>464</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,8 +52,8 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
-         <width>902</width>
+         <y>20</y>
+         <width>150</width>
          <height>21</height>
         </rect>
        </property>
@@ -71,8 +71,8 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>50</y>
-         <width>902</width>
+         <y>40</y>
+         <width>150</width>
          <height>20</height>
         </rect>
        </property>
@@ -84,9 +84,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>380</y>
-         <width>281</width>
-         <height>141</height>
+         <y>260</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -95,10 +95,10 @@
        <widget class="QLineEdit" name="emitterElementsDepthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -109,7 +109,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -122,7 +122,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -135,7 +135,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -147,10 +147,10 @@
        <widget class="QLineEdit" name="emitterElementsWidthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -160,8 +160,8 @@
        <widget class="QLabel" name="label_13">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>30</y>
+          <x>150</x>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -173,10 +173,10 @@
        <widget class="QLineEdit" name="emitterElementsHeightLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -186,8 +186,8 @@
        <widget class="QLabel" name="label_15">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>70</y>
+          <x>150</x>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -199,8 +199,8 @@
        <widget class="QLabel" name="label_18">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>110</y>
+          <x>150</x>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -214,9 +214,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>80</y>
-         <width>281</width>
-         <height>141</height>
+         <y>60</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -225,8 +225,8 @@
        <widget class="QLabel" name="emitterWidthMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>30</y>
+          <x>150</x>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -239,7 +239,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -251,8 +251,8 @@
        <widget class="QLabel" name="emitterHeightMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>110</y>
+          <x>150</x>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -264,10 +264,10 @@
        <widget class="QLineEdit" name="emitterHeightLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -278,7 +278,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -290,10 +290,10 @@
        <widget class="QLineEdit" name="emitterDepthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -303,10 +303,10 @@
        <widget class="QLineEdit" name="emitterWidthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -317,7 +317,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -329,8 +329,8 @@
        <widget class="QLabel" name="emitterDepthMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>70</y>
+          <x>150</x>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -344,9 +344,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>230</y>
-         <width>281</width>
-         <height>141</height>
+         <y>160</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -355,10 +355,10 @@
        <widget class="QLineEdit" name="emitterYLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -369,7 +369,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -382,7 +382,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -395,7 +395,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -407,10 +407,10 @@
        <widget class="QLineEdit" name="emitterXLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -420,10 +420,10 @@
        <widget class="QLineEdit" name="emitterZLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -445,8 +445,8 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>50</y>
-         <width>902</width>
+         <y>40</y>
+         <width>150</width>
          <height>20</height>
         </rect>
        </property>
@@ -458,9 +458,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>380</y>
-         <width>281</width>
-         <height>141</height>
+         <y>260</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -469,10 +469,10 @@
        <widget class="QLineEdit" name="collectorElementsDepthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -483,7 +483,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -496,7 +496,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -509,7 +509,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -521,10 +521,10 @@
        <widget class="QLineEdit" name="collectorElementsWidthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -534,8 +534,8 @@
        <widget class="QLabel" name="label_52">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>30</y>
+          <x>150</x>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -547,10 +547,10 @@
        <widget class="QLineEdit" name="collectorElementsHeightLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -560,8 +560,8 @@
        <widget class="QLabel" name="label_53">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>70</y>
+          <x>150</x>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -573,8 +573,8 @@
        <widget class="QLabel" name="label_54">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>110</y>
+          <x>150</x>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -588,9 +588,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>80</y>
-         <width>281</width>
-         <height>141</height>
+         <y>60</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -599,8 +599,8 @@
        <widget class="QLabel" name="collectorWidthMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>30</y>
+          <x>150</x>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -613,7 +613,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -625,8 +625,8 @@
        <widget class="QLabel" name="collectorHeightMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>110</y>
+          <x>150</x>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -638,10 +638,10 @@
        <widget class="QLineEdit" name="collectorHeightLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -652,7 +652,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -664,10 +664,10 @@
        <widget class="QLineEdit" name="collectorDepthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -677,10 +677,10 @@
        <widget class="QLineEdit" name="collectorWidthLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -691,7 +691,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -703,8 +703,8 @@
        <widget class="QLabel" name="collectorDepthMetersLabel">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>70</y>
+          <x>150</x>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -718,8 +718,8 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
-         <width>902</width>
+         <y>20</y>
+         <width>150</width>
          <height>21</height>
         </rect>
        </property>
@@ -734,9 +734,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>230</y>
-         <width>281</width>
-         <height>141</height>
+         <y>160</y>
+         <width>220</width>
+         <height>91</height>
         </rect>
        </property>
        <property name="title">
@@ -745,10 +745,10 @@
        <widget class="QLineEdit" name="collectorYLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>60</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -759,7 +759,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>30</y>
+          <y>22</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -772,7 +772,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>42</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -785,7 +785,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>62</y>
           <width>62</width>
           <height>15</height>
          </rect>
@@ -797,10 +797,10 @@
        <widget class="QLineEdit" name="collectorXLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>60</x>
           <y>20</y>
-          <width>113</width>
-          <height>29</height>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -810,10 +810,10 @@
        <widget class="QLineEdit" name="collectorZLineEdit">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>100</y>
-          <width>113</width>
-          <height>29</height>
+          <x>60</x>
+          <y>60</y>
+          <width>80</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
@@ -834,9 +834,9 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>170</x>
+         <x>150</x>
          <y>20</y>
-         <width>101</width>
+         <width>71</width>
          <height>21</height>
         </rect>
        </property>

@@ -2,6 +2,9 @@ import sys
 from PyQt4 import QtCore, QtGui
 from mainWindow import Ui_mainWindow
 from helpWindow import Ui_helpWindow
+from simulation import simulate
+
+
 
 class HelpWindow(QtGui.QMainWindow, Ui_helpWindow):
     def __init__(self, parent=None):
@@ -77,6 +80,12 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         
         if not self.collectorFormValidation():
             return 0
+        
+        #here simulate
+        #print(self.emitterWidthEl, self.emitterHeightEl, self.emitterDepthEl)
+        simulate(self.emitterWidth, self.emitterDepth, self.emitterHeight, self.emitterWidthEl, self.emitterDepthEl, self.emitterHeightEl, self.emitterX, self.emitterY, self.emitterZ, self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorX, self.collectorY, self.collectorZ)
+        
+        
         
         print("simulation finished succesfully")
         return 1

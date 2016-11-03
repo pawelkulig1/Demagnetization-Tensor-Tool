@@ -2,15 +2,15 @@ import math as mt
 
 
 class block:
-	def __init__(self, swidth=1, sdepth=1, sheight=1, wElements = 10, dElements=10, hElements=10, xpoz=0, ypoz=0, zpoz=0):
+	def __init__(self, width=1, depth=1, height=1, wElements = 10, dElements=10, hElements=10, xpoz=0, ypoz=0, zpoz=0):
 		#define central cordinates of block
 		self.xpoz = xpoz
 		self.ypoz = ypoz
 		self.zpoz = zpoz
 
-		self.widthSmall = swidth
-		self.depthSmall = sdepth
-		self.heightSmall = sheight
+		self.width = width
+		self.depth = depth
+		self.height = height
 		
 		self.wElements = wElements
 		self.dElements = dElements
@@ -18,15 +18,17 @@ class block:
 		
 		#calculate size of block in m.
 		
-		self.calcBigSize()
+		self.calcSmallSize()
 		self.nElements = int(round((self.width*self.depth*self.height)/(self.widthSmall*self.depthSmall*self.heightSmall)))
 		
 		
 		#calculate big object size
-	def calcBigSize(self):
-		self.width = self.widthSmall*self.wElements
-		self.depth = self.depthSmall*self.dElements
-		self.height = self.heightSmall*self.hElements
+	def calcSmallSize(self):
+                self.widthSmall = (self.width/self.wElements)
+                self.depthSmall = (self.depth/self.dElements)
+                self.heightSmall = (self.height/self.hElements)
+                #print(self.widthSmall, self.depthSmall, self.heightSmall)
+
 		
 		
 	#returns size of small blocks created from origin block
