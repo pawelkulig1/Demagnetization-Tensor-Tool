@@ -1,10 +1,24 @@
 import sys
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import QThread, SIGNAL
 from mainWindow import Ui_mainWindow
 from helpWindow import Ui_helpWindow
 from simulation import simulate
+from parseGuiData import *
 
 
+class SimulateThread(QThread):
+
+    def __init__(self, emitter, collector):
+        QThread.__init__(self)
+        self.emitter = emitter
+        self.collector = collector
+
+    def __del__(self):
+        self.wait()
+        
+    def run(self):
+        simulate(self.emitter, self.collector)
 
 class HelpWindow(QtGui.QMainWindow, Ui_helpWindow):
     def __init__(self, parent=None):
@@ -45,9 +59,10 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.helpButton.clicked.connect(self.helpWindow)
         
     def simulateButtonClicked(self):
-        print("simulation started")
+        print("simulation started")        
         
-        #EmitterData
+        self.setProgressBar(0)
+        
         self.emitterWidth = (self.emitterWidthLineEdit.text())
         self.emitterDepth = (self.emitterDepthLineEdit.text())
         self.emitterHeight = (self.emitterHeightLineEdit.text())
@@ -59,12 +74,9 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.emitterWidthEl = (self.emitterElementsWidthLineEdit.text())
         self.emitterDepthEl = (self.emitterElementsDepthLineEdit.text())
         self.emitterHeightEl = (self.emitterElementsHeightLineEdit.text())
-        #print(emitterWidthEl)
         
-        if not self.emitterFormValidation():
-            return 0
-        
-        #CollectorData
+        emitter = GuiData(self.emitterWidth, self.emitterDepth, self.emitterHeight,  self.emitterWidthEl, self.emitterDepthEl, self.emitterHeightEl, self.emitterX, self.emitterY, self.emitterZ,)
+       
         
         self.collectorWidth = (self.collectorWidthLineEdit.text())
         self.collectorDepth = (self.collectorDepthLineEdit.text())
@@ -76,126 +88,32 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         
         self.collectorWidthEl = (self.collectorElementsWidthLineEdit.text())
         self.collectorDepthEl = (self.collectorElementsDepthLineEdit.text())
-        self.collectorHeightEl = (self.collectorElementsHeightLineEdit.text())
-        
-        if not self.collectorFormValidation():
-            return 0
-        
-        #here simulate
-        #print(self.emitterWidthEl, self.emitterHeightEl, self.emitterDepthEl)
-        simulate(self.emitterWidth, self.emitterDepth, self.emitterHeight, self.emitterWidthEl, self.emitterDepthEl, self.emitterHeightEl, self.emitterX, self.emitterY, self.emitterZ, self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorX, self.collectorY, self.collectorZ)
-        
-        
-        
-        print("simulation finished succesfully")
-        return 1
-        
-    def emitterFormValidation(self):
-        try:
-            self.emitterWidth = float(self.emitterWidth)
-            self.emitterDepth = float(self.emitterDepth)
-            self.emitterHeight = float(self.emitterHeight)
-            self.emitterX = float(self.emitterX)
-            self.emitterY = float(self.emitterY)
-            self.emitterZ = float(self.emitterZ)
-            self.emitterWidthEl = float(self.emitterWidthEl)
-            self.emitterDepthEl = float(self.emitterDepthEl)
-            self.emitterHeightEl = float(self.emitterHeightEl)
-        except:
-            self.alert("Some emitter data are not numbers!")
-            return 0
-            
-        if self.emitterWidth>1e-5:
-            if self.areYouSure("Emitter width seems very big, are you sure you want to leave it?","Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-            
-        if self.emitterDepth>1e-5:
-            if self.areYouSure("Emitter depth seems very big, are you sure you want to leave it?","Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-            
-        if self.emitterHeight>1e-5:
-            if self.areYouSure("Emitter height seems very big, are you sure you want to leave it?", "Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-        
-        if self.emitterWidthEl<0:
-            self.alert("Emitter cannot be cut in less than 1 element (width axis)")
-            return 0
-        
-        if self.emitterDepthEl<0:
-            self.alert("Emitter cannot be cut in less than 1 element (depth axis)")
-            return 0
-        
-        if self.emitterHeightEl<0:
-            self.alert("Emitter cannot be cut in less than 1 element (height axis)")
-            return 0
-        
-        
-        if self.emitterWidthEl*self.emitterDepthEl*self.emitterHeightEl>1000:
-            if self.areYouSure("Calculation time may be huge for a lot of elements! Are you sure? ("+str(self.emitterWidthEl*self.emitterDepthEl*self.emitterHeightEl)+" only in emitter)"):
-                pass
-            else:
-                return 0
-        return 1
+        self.collectorHeightEl = (self.collectorElementsHeightLineEdit.text())        
 
-    def collectorFormValidation(self):
-        try:
-            self.collectorWidth = float(self.collectorWidth)
-            self.collectorDepth = float(self.collectorDepth)
-            self.collectorHeight = float(self.collectorHeight)
-            self.collectorX = float(self.collectorX)
-            self.collectorY = float(self.collectorY)
-            self.collectorZ = float(self.collectorZ)
-            self.collectorWidthEl = float(self.collectorWidthEl)
-            self.collectorDepthEl = float(self.collectorDepthEl)
-            self.collectorHeightEl = float(self.collectorHeightEl)
-        except:
-            self.alert("Some collector data are not numbers!")
-            return 0
-            
-        if self.collectorWidth>1e-5:
-            if self.areYouSure("collector width seems very big, are you sure you want to leave it?","Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-            
-        if self.collectorDepth>1e-5:
-            if self.areYouSure("collector depth seems very big, are you sure you want to leave it?","Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-            
-        if self.collectorHeight>1e-5:
-            if self.areYouSure("collector height seems very big, are you sure you want to leave it?", "Check if you really want to make structure of that size, exception is always raised when size exceeds 1e-5"):
-                pass
-            else:
-                return 0
-        
-        if self.collectorWidthEl<0:
-            self.alert("collector cannot be cut in less than 1 element (width axis)")
-            return 0
-        
-        if self.collectorDepthEl<0:
-            self.alert("collector cannot be cut in less than 1 element (depth axis)")
-            return 0
-        
-        if self.collectorHeightEl<0:
-            self.alert("collector cannot be cut in less than 1 element (height axis)")
-            return 0
+        collector = GuiData(self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorX, self.collectorY, self.collectorZ)
+    
         
         
-        if self.collectorWidthEl*self.collectorDepthEl*self.collectorHeightEl>1000:
-            if self.areYouSure("Calculation time may be huge for a lot of elements! Are you sure? ("+str(self.collectorWidthEl*self.collectorDepthEl*self.collectorHeightEl)+" only in collector)"):
-                pass
-            else:
-                return 0
-        return 1
+        self.get_thread = SimulateThread(emitter, collector)
+        #print(self.connect(self.get_thread, SIGNAL("setProgressBar(QString)"), self.setProgressBar))
+        self.connect(self.get_thread, SIGNAL("add_post(QString)"), self.add_post)
+        self.connect(self.get_thread, SIGNAL("finished()"), self.done)
+        self.get_thread.start()
+        
 
+        #print("simulation finished succesfully")
+        return 1
+    
+    def setProgressBar(self, value):
+        #print(value)
+        self.simulationProgressBar.setValue(value)
+        
+    def add_post(self, post_text):
+        print(post_text)
+    
+    def done(self):
+        pass
+    
     def helpWindow(self):
         window = HelpWindow(self)
         window.show()

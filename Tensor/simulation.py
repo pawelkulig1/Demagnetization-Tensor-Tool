@@ -1,12 +1,22 @@
 import math as mt
 from formulas import *
 
+from PyQt4.QtCore import QThread, SIGNAL
 
+class Thread(QThread, QtGui.QMainWindow):
+    def __init__(self):
+        QThread.__init__(self)
+        
+    def sendSignal(self, top_post):
+        #print(top_post)
+        print(self.emit(SIGNAL('add_post(QString)'), top_post))
+        
 
-
-def simulate(*args):
-    emitter = block(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8])
-    receiver = block(args[9], args[10], args[11], args[12], args[13], args[14], args[15], args[16], args[17])
+def simulate(emi, rec):
+    percents = Thread()
+    
+    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
+    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
 
     #for each small part create object
 
@@ -24,7 +34,9 @@ def simulate(*args):
 
     avgMatrix = []
     for j in range(receiver.nElements):
-        print((j*100)/receiver.nElements, "%")
+        #((j*100)/receiver.nElements, "%")
+        #emit(SIGNAL('add_post(QString)'), top_post)
+        percents.sendSignal((j*100)/receiver.nElements)
         a11 = 0
         a12 = 0
         a13 = 0
