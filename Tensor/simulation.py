@@ -1,22 +1,13 @@
 import math as mt
 from formulas import *
 
-from PyQt4.QtCore import QThread, SIGNAL
-
-class Thread(QThread, QtGui.QMainWindow):
-    def __init__(self):
-        QThread.__init__(self)
-        
-    def sendSignal(self, top_post):
-        #print(top_post)
-        print(self.emit(SIGNAL('add_post(QString)'), top_post))
-        
+#from PyQt4.QtCore import QThread, SIGNAL
 
 def simulate(emi, rec):
-    percents = Thread()
+    #percents = Thread()
     
-    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
-    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
+    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl, shape)
+    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl, shape)
 
     #for each small part create object
 
@@ -30,13 +21,14 @@ def simulate(emi, rec):
     for i in range(receiver.nElements):
         x, y, z = receiver.smallPoz(i)
         dx, dy, dz = receiver.getSmallSize()
+        
         receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
     avgMatrix = []
     for j in range(receiver.nElements):
-        #((j*100)/receiver.nElements, "%")
+        print((j*100)/receiver.nElements, "%")
         #emit(SIGNAL('add_post(QString)'), top_post)
-        percents.sendSignal((j*100)/receiver.nElements)
+       # percents.sendSignal((j*100)/receiver.nElements)
         a11 = 0
         a12 = 0
         a13 = 0
