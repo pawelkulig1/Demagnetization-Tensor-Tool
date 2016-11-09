@@ -1,6 +1,5 @@
 import math as mt
 
-
 class block:
 	def __init__(self, width=1, depth=1, height=1, wElements = 10, dElements=10, hElements=10, xpoz=0, ypoz=0, zpoz=0):
 		#define central cordinates of block
@@ -84,6 +83,32 @@ class smallBlock:
 	def __add__(self, other):
 		return (self.xpoz-other.xpoz), (self.ypoz-other.ypoz), (self.zpoz-other.zpoz)
 	
+
+class Ellipse:
+	def __init__(self, a, b, height, axis, xpoz, ypoz, zpoz):
+		#axis is 0 for x,y; 1 for y,z; and 2 for x,z
+		self.a = a
+		self.b = b
+		self.height = height
+		self.axis = axis
+		self.x = xpoz
+		self.y = ypoz
+		self.z = zpoz
+		
+	def ifInStructure(self, xpoint, ypoint, zpoint):
+		if self.axis == 0:
+			if ((xpoint-self.x)**2/self.a**2) + ((ypoint-self.y)**2/self.b**2) <= 1 and zpoint<=self.z+self.height and zpoint>=self.z:
+				return True
+		
+		elif self.axis == 1:
+			if ((ypoint-self.y)**2/self.a**2) + ((zpoint-self.z)**2/self.b**2) <= 1 and xpoint<=self.x+self.height and xpoint>=self.x:
+				return True
+		
+		else:
+			if ((xpoint-self.x)**2/self.a**2) + ((zpoint-self.z)**2/self.b**2) <= 1 and ypoint<=self.y+self.height and ypoint>=self.y:
+				return True
+
+		return False
 
 def radius(x,y,z):
 	return mt.sqrt(x**2 + y**2 + z**2)
