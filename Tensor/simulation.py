@@ -3,7 +3,11 @@ from formulas import *
 import multiprocessing
 
 
-def simulate(emi, rec):
+def simulateCyllindric(emi, rec):
+    pass
+
+
+def simulateRectangular(emi, rec):
     #percents = Thread()
     
     emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)

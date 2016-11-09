@@ -3,7 +3,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QThread, SIGNAL
 from mainWindow import Ui_mainWindow
 from helpWindow import Ui_helpWindow
-from simulation import simulate
+from simulation import simulateRectangular
 from parseGuiData import *
 
 
@@ -18,7 +18,7 @@ class SimulateThread(QThread):
         self.wait()
         
     def run(self):
-        simulate(self.emitter, self.collector)
+        simulateRectangular(self.emitter, self.collector)
 
 class HelpWindow(QtGui.QMainWindow, Ui_helpWindow):
     def __init__(self, parent=None):
@@ -63,6 +63,19 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         
         self.setProgressBar(0)
         
+        if self.emitterRecRadioButton.isChecked():
+            self.emitterShape = "r"
+        else:
+            self.emitterShape = "c"
+        
+        #print(self.emitterCylRadioButton.isChecked())
+        if self.collectorRecRadioButton.isChecked():
+            self.collectorShape = "r"
+        else:
+            self.collectorShape = "c"
+        
+        
+        
         self.emitterWidth = (self.emitterWidthLineEdit.text())
         self.emitterDepth = (self.emitterDepthLineEdit.text())
         self.emitterHeight = (self.emitterHeightLineEdit.text())
@@ -75,7 +88,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.emitterDepthEl = (self.emitterElementsDepthLineEdit.text())
         self.emitterHeightEl = (self.emitterElementsHeightLineEdit.text())
         
-        emitter = GuiData(self.emitterWidth, self.emitterDepth, self.emitterHeight,  self.emitterWidthEl, self.emitterDepthEl, self.emitterHeightEl, self.emitterX, self.emitterY, self.emitterZ,)
+        emitter = GuiData(self.emitterWidth, self.emitterDepth, self.emitterHeight,  self.emitterWidthEl, self.emitterDepthEl, self.emitterHeightEl, self.emitterX, self.emitterY, self.emitterZ, self.emitterShape)
        
         
         self.collectorWidth = (self.collectorWidthLineEdit.text())
@@ -90,7 +103,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.collectorDepthEl = (self.collectorElementsDepthLineEdit.text())
         self.collectorHeightEl = (self.collectorElementsHeightLineEdit.text())        
 
-        collector = GuiData(self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorX, self.collectorY, self.collectorZ)
+        collector = GuiData(self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorX, self.collectorY, self.collectorZ, self.collectorShape)
     
         
         
