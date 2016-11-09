@@ -3,23 +3,32 @@ from formulas import *
 import multiprocessing
 
 
-def simulateCyllindric(emi, rec):
-    pass
-
-
 def simulateRectangular(emi, rec):
     #percents = Thread()
     
-    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl, shape)
-    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl, shape)
+    
+    if em.shape =="rectangle":
+        emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
+    else:
+        pass
+    
+    if rec.shape =="ellipse":
+        receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl) #if shape == 'ellipse'
+    else:
+        pass
 
     #for each small part create object
 
     emitterDivided = []
+    
+    
     for i in range(emitter.nElements):
         x, y, z = emitter.smallPoz(i)
         dx, dy, dz = emitter.getSmallSize()
-        emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
+        if emitter.shape == "ellipse":
+            pass
+        else:
+            emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
     receiverDivided = []
     for i in range(receiver.nElements):

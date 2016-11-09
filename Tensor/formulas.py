@@ -110,6 +110,7 @@ class Ellipse:
 
 		return False
 
+
 def radius(x,y,z):
 	return mt.sqrt(x**2 + y**2 + z**2)
 

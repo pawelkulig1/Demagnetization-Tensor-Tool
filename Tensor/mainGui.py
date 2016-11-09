@@ -34,8 +34,48 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
     def __init__(self, parent=None):
         super(MainScreen, self).__init__(parent)
         self.setupUi(self)
-        #self.helpButton.clicked.connect(self.helpWindowClick)
         self.window()
+    
+    def window(self):
+        self.simulateButton.clicked.connect(self.simulateButtonClicked)
+        self.exitButton.clicked.connect(self.closeProgram)
+        self.helpButton.clicked.connect(self.helpWindow)
+        self.emitterRecRadioButton.toggled.connect(self.emitterRadioToggle)
+        self.collectorRecRadioButton.toggled.connect(self.collectorRadioToggle)
+        
+    def emitterRadioToggle(self):
+        if self.emitterRecRadioButton.isChecked():
+            self.emitterWidthLabel.setText("width")
+            self.emitterDepthLabel.setText("depth")
+            self.emitterWidthLineEdit.move(60, 20)
+            self.emitterDepthLineEdit.move(60, 40)
+            self.emitterWidthMetersLabel.move(150, 22)
+            self.emitterDepthMetersLabel.move(150, 42)
+        else:
+            self.emitterWidthLabel.setText("A Factor")
+            self.emitterDepthLabel.setText("B Factor")
+            self.emitterWidthLineEdit.move(70, 20)
+            self.emitterDepthLineEdit.move(70, 40)
+            self.emitterWidthMetersLabel.move(160, 22)
+            self.emitterDepthMetersLabel.move(160, 42)
+
+    def collectorRadioToggle(self):
+        if self.collectorRecRadioButton.isChecked():
+            self.collectorWidthLabel.setText("width")
+            self.collectorDepthLabel.setText("depth")
+            self.collectorWidthLineEdit.move(60, 20)
+            self.collectorDepthLineEdit.move(60, 40)
+            self.collectorWidthMetersLabel.move(150, 22)
+            self.collectorDepthMetersLabel.move(150, 42)
+        else:
+            self.collectorWidthLabel.setText("A Factor")
+            self.collectorDepthLabel.setText("B Factor")
+            self.collectorWidthLineEdit.move(70, 20)
+            self.collectorDepthLineEdit.move(70, 40)
+            self.collectorWidthMetersLabel.move(160, 22)
+            self.collectorDepthMetersLabel.move(160, 42)
+
+            #self.collectorSizeGroupBox.hide()
         
     def alert(self, text, details=""):
         msg = QtGui.QMessageBox()
@@ -52,11 +92,6 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             return 1
         else:
             return 0
-    
-    def window(self):
-        self.simulateButton.clicked.connect(self.simulateButtonClicked)
-        self.exitButton.clicked.connect(self.closeProgram)
-        self.helpButton.clicked.connect(self.helpWindow)
         
     def simulateButtonClicked(self):
         print("simulation started")        
@@ -118,7 +153,6 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         return 1
     
     def setProgressBar(self, value):
-        #print(value)
         self.simulationProgressBar.setValue(value)
         
     def add_post(self, post_text):

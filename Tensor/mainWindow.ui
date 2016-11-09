@@ -66,7 +66,7 @@
       </widget>
       <widget class="QRadioButton" name="emitterCylRadioButton">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -81,6 +81,9 @@
        </property>
       </widget>
       <widget class="QGroupBox" name="emitterElementsGroupBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -211,6 +214,9 @@
        </widget>
       </widget>
       <widget class="QGroupBox" name="emitterSizeGroupBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -219,8 +225,17 @@
          <height>91</height>
         </rect>
        </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Size</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
        <widget class="QLabel" name="emitterWidthMetersLabel">
         <property name="geometry">
@@ -340,7 +355,10 @@
         </property>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_7">
+      <widget class="QGroupBox" name="emitterPositionGroupBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -351,6 +369,9 @@
        </property>
        <property name="title">
         <string>Position</string>
+       </property>
+       <property name="hidden" stdset="0">
+        <bool>false</bool>
        </property>
        <widget class="QLineEdit" name="emitterYLineEdit">
         <property name="geometry">
@@ -431,6 +452,31 @@
         </property>
        </widget>
       </widget>
+      <widget class="QComboBox" name="emitterComboBox">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>38</y>
+         <width>63</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>xy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>yz</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>xz</string>
+        </property>
+       </item>
+      </widget>
      </widget>
     </item>
     <item row="0" column="1">
@@ -440,7 +486,7 @@
       </property>
       <widget class="QRadioButton" name="collectorCylRadioButton">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -821,6 +867,31 @@
         </property>
        </widget>
       </widget>
+      <widget class="QComboBox" name="collectorComboBox">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>38</y>
+         <width>63</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>xy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>yz</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>xz</string>
+        </property>
+       </item>
+      </widget>
      </widget>
     </item>
     <item row="0" column="2">
@@ -830,7 +901,7 @@
       </property>
       <widget class="QLineEdit" name="threadNumberLineEdit">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -870,6 +941,34 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>emitterRecRadioButton</tabstop>
+  <tabstop>emitterCylRadioButton</tabstop>
+  <tabstop>emitterWidthLineEdit</tabstop>
+  <tabstop>emitterDepthLineEdit</tabstop>
+  <tabstop>emitterHeightLineEdit</tabstop>
+  <tabstop>emitterXLineEdit</tabstop>
+  <tabstop>emitterYLineEdit</tabstop>
+  <tabstop>emitterZLineEdit</tabstop>
+  <tabstop>emitterElementsWidthLineEdit</tabstop>
+  <tabstop>emitterElementsDepthLineEdit</tabstop>
+  <tabstop>emitterElementsHeightLineEdit</tabstop>
+  <tabstop>collectorRecRadioButton</tabstop>
+  <tabstop>collectorCylRadioButton</tabstop>
+  <tabstop>collectorWidthLineEdit</tabstop>
+  <tabstop>collectorDepthLineEdit</tabstop>
+  <tabstop>collectorHeightLineEdit</tabstop>
+  <tabstop>collectorXLineEdit</tabstop>
+  <tabstop>collectorYLineEdit</tabstop>
+  <tabstop>collectorZLineEdit</tabstop>
+  <tabstop>collectorElementsWidthLineEdit</tabstop>
+  <tabstop>collectorElementsDepthLineEdit</tabstop>
+  <tabstop>collectorElementsHeightLineEdit</tabstop>
+  <tabstop>threadNumberLineEdit</tabstop>
+  <tabstop>simulateButton</tabstop>
+  <tabstop>helpButton</tabstop>
+  <tabstop>exitButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
