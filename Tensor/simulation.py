@@ -7,15 +7,19 @@ def simulateRectangular(emi, rec):
     #percents = Thread()
     
     
-    if em.shape =="rectangle":
+    '''if em.shape =="rectangle":
         emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
     else:
         pass
-    
+
     if rec.shape =="ellipse":
         receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl) #if shape == 'ellipse'
     else:
-        pass
+        pass'''
+
+    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
+    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl,
+                     rec.heightEl)
 
     #for each small part create object
 
@@ -25,10 +29,10 @@ def simulateRectangular(emi, rec):
     for i in range(emitter.nElements):
         x, y, z = emitter.smallPoz(i)
         dx, dy, dz = emitter.getSmallSize()
-        if emitter.shape == "ellipse":
-            pass
-        else:
-            emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
+        #if emitter.shape == "ellipse":
+        #    pass
+        #else:
+        emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
 
     receiverDivided = []
     for i in range(receiver.nElements):
@@ -77,10 +81,6 @@ def simulateRectangular(emi, rec):
 
 
     avgMatrix = []
-    for j in range(receiver.nElements):
-        print((j*100)/receiver.nElements, "%")
-        #emit(SIGNAL('add_post(QString)'), top_post)
-       # percents.sendSignal((j*100)/receiver.nElements)
     print("[",finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
     print("[",finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
     print("[",finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")

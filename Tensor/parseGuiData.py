@@ -1,5 +1,5 @@
 class GuiData():
-    def __init__(self, width, depth, height, x, y, z, widthEl, depthEl, heightEl):
+    def __init__(self, width, depth, height, x, y, z, widthEl, depthEl, heightEl,):
        self.width = width
        self.depth = depth
        self.height = height
@@ -22,6 +22,7 @@ class GuiData():
             self.widthEl = float(self.widthEl)
             self.depthEl = float(self.depthEl)
             self.heightEl = float(self.heightEl)
+            print(self.x, self.widthEl)
         except:
             #self.alert("Some emitter data are not numbers!")
                 return "alert", "Some data are not numbers!"

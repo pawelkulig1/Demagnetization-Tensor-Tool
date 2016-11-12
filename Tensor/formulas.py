@@ -1,7 +1,7 @@
 import math as mt
 
 class block:
-	def __init__(self, width=1, depth=1, height=1, wElements = 10, dElements=10, hElements=10, xpoz=0, ypoz=0, zpoz=0):
+	def __init__(self, width=1, depth=1, height=1, xpoz=0, ypoz=0, zpoz=0, wElements = 10, dElements=10, hElements=10,):
 		#define central cordinates of block
 		self.xpoz = xpoz
 		self.ypoz = ypoz
