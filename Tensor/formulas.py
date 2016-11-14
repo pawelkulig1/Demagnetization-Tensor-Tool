@@ -21,18 +21,24 @@ class Block:
         self.nElements = int(
             round((self.width * self.depth * self.height) / (self.widthSmall * self.depthSmall * self.heightSmall)))
 
-    def ifInStructure(self):
+    def isInStructure(self):
         pass
 
     def createStructure(self):
-        pass
+        startw = (self.widthSmall / 2) + self.xpoz
+        startd = (self.depthSmall / 2) + self.ypoz
+        starth = (self.heightSmall / 2) + self.zpoz
+
+        '''for i in range(self.wElements):
+            for j in range(self.dElements):
+                for k in range(self.hElements):
+                    if self.isInstructure()'''
 
 class Rectangle(Block):
     def __init__(self, width=1e-8, depth=1e-8, height=1e-08, xpoz=0, ypoz=0, zpoz=0, wElements=10, dElements=10, hElements=10):
         super(Rectangle, self).__init__(width, depth, height, xpoz, ypoz, zpoz, wElements, dElements, hElements)
 
-
-    def ifInStructure(self): #all objects from rectangle are in rectangular shape
+    def isInStructure(self): #all objects from rectangle are in rectangular shape
         return True
 
 
@@ -127,18 +133,18 @@ class Ellipse(Block):
         else:
             super(Ellipse, self).__init__(a, height, b, xpoz, ypoz, zpoz, wElements, dElements, hElements)
 
-    def ifInStructure(self, xpoint, ypoint, zpoint):
+    def isInStructure(self, xpoint, ypoint, zpoint):
         if self.axis == 0:
-            if ((xpoint - Block.xpoz) ** 2 / Block.width ** 2) + ((ypoint - Block.ypoz) ** 2 / Block.depth ** 2) <= 1 and zpoint <= Block.zpoz + Block.height and zpoint >= Block.zpoz:
+            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth- self.ypoz) ** 2 / self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
                 return True
 
-        '''elif self.axis == 1:
-            if ((ypoint - self.y) ** 2 / self.a ** 2) + ((zpoint - self.z) ** 2 / self.b ** 2) <= 1 and xpoint <= self.x + self.height and xpoint >= self.x:
+        elif self.axis == 1:
+            if ((ypoint - self.width - self.ypoz) ** 2 / self.width ** 2) + ((zpoint - self.depth - self.zpoz) ** 2 / self.depth ** 2) <= 1 and xpoint <= self.xpoz + self.height and xpoint >= self.xpoz:
                 return True
 
         else:
-            if ((xpoint - self.x) ** 2 / self.a ** 2) + ((zpoint - self.z) ** 2 / self.b ** 2) <= 1 and ypoint <= self.y + self.height and ypoint >= self.y:
-                return True'''
+            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((zpoint - self.depth - self.zpoz) ** 2 / self.depth ** 2) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
+                return True
 
         return False
 

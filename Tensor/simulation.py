@@ -18,8 +18,8 @@ def simulateRectangular(emi, rec):
         pass'''
 
     #emitter = Rectangle(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
-    emitter = Ellipse(1, 1, 1, 0, 0, 0, 0, 100, 100, 100)
-    print(emitter.ifInStructure(0,0,0))
+    emitter = Ellipse(1, 1, 1, 1, 0, 0, 0, 100, 100, 100)
+    print(emitter.ifInStructure(0,0,1.1))
 
 
     #receiver = Rectangle(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
