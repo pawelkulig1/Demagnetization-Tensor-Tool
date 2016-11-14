@@ -35,9 +35,9 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
     def __init__(self, parent=None):
         super(MainScreen, self).__init__(parent)
         self.setupUi(self)
-        self.window()
+        self.windowAction()
 
-    def window(self):
+    def windowAction(self):
         self.simulateButton.clicked.connect(self.simulateButtonClicked)
         self.exitButton.clicked.connect(self.closeProgram)
         self.helpButton.clicked.connect(self.helpWindow)

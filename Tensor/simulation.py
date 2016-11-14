@@ -17,11 +17,17 @@ def simulateRectangular(emi, rec):
     else:
         pass'''
 
-    emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
-    receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl,
-                     rec.heightEl)
+    #emitter = Rectangle(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
+    emitter = Ellipse(1, 1, 1, 0, 0, 0, 0, 100, 100, 100)
+    print(emitter.ifInStructure(0,0,0))
 
-    #for each small part create object
+
+    #receiver = Rectangle(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
+
+
+
+
+    '''#for each small part create object
 
     emitterDivided = []
     
@@ -128,4 +134,4 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, receiverDivid
         a33=a33/emitter.nElements
 
         avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
-    return avgMatrix
+    return avgMatrix'''
