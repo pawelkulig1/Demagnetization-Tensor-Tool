@@ -11,9 +11,9 @@ class Block:
         self.depth = depth
         self.height = height
 
-        self.wElements = wElements
-        self.dElements = dElements
-        self.hElements = hElements
+        self.wElements = int(wElements)
+        self.dElements = int(dElements)
+        self.hElements = int(hElements)
 
         self.widthSmall = (self.width / self.wElements)
         self.depthSmall = (self.depth / self.dElements)
@@ -21,7 +21,7 @@ class Block:
         self.nElements = int(
             round((self.width * self.depth * self.height) / (self.widthSmall * self.depthSmall * self.heightSmall)))
 
-    def isInStructure(self):
+    def isInStructure(self, xpoint, ypoint, zpoint):
         pass
 
     def createStructure(self):
@@ -29,96 +29,20 @@ class Block:
         startd = (self.depthSmall / 2) + self.ypoz
         starth = (self.heightSmall / 2) + self.zpoz
 
-        '''for i in range(self.wElements):
+        for i in range(self.wElements):
             for j in range(self.dElements):
                 for k in range(self.hElements):
-                    if self.isInstructure()'''
+                    if self.isInStructure(startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k):
+                        self.smallBlocksStructure.append([startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k])
+
 
 class Rectangle(Block):
     def __init__(self, width=1e-8, depth=1e-8, height=1e-08, xpoz=0, ypoz=0, zpoz=0, wElements=10, dElements=10, hElements=10):
         super(Rectangle, self).__init__(width, depth, height, xpoz, ypoz, zpoz, wElements, dElements, hElements)
 
-    def isInStructure(self): #all objects from rectangle are in rectangular shape
+    def isInStructure(self, xpoint, ypoint, zpoint):
+        #all objects from rectangle are inside of rectangular shape
         return True
-
-
-'''class block:
-    def __init__(self, width=1, depth=1, height=1, xpoz=0, ypoz=0, zpoz=0, wElements=10, dElements=10, hElements=10):
-        # define central cordinates of block
-        self.xpoz = xpoz
-        self.ypoz = ypoz
-        self.zpoz = zpoz
-
-        self.width = width
-        self.depth = depth
-        self.height = height
-
-        self.wElements = wElements
-        self.dElements = dElements
-        self.hElements = hElements
-
-        # calculate size of block in m.
-
-        self.calcSmallSize()
-        self.nElements = int(
-            round((self.width * self.depth * self.height) / (self.widthSmall * self.depthSmall * self.heightSmall)))
-
-    # calculate big object size
-    def calcSmallSize(self):
-        self.widthSmall = (self.width / self.wElements)
-        self.depthSmall = (self.depth / self.dElements)
-        self.heightSmall = (self.height / self.hElements)
-        # print(self.widthSmall, self.depthSmall, self.heightSmall)
-
-    # returns size of small blocks created from origin block
-    def getSmallSize(self):
-        return self.widthSmall, self.depthSmall, self.heightSmall
-
-    def smallPoz(self, number):
-        if self.width == 0:
-            raise NameError("Probably block smallSize was not called")
-
-        # calculate position of block in my cordinates height, depth, width
-        blocksPerLevel = round(self.width / self.widthSmall * self.depth / self.depthSmall)
-        blocksPerWidth = round(self.width / self.widthSmall)
-        blocksPerDepth = round(self.depth / self.depthSmall)
-
-        level = mt.floor(number / blocksPerLevel)
-        number = number - level * blocksPerLevel
-
-        depthLevel = mt.floor(number / blocksPerWidth)
-        number = number - depthLevel * blocksPerWidth
-
-        widthLevel = number
-        number = number - widthLevel
-
-        if (number != 0):  # it should never be true otherwise better to raise exception cause weird things may happen
-            raise NameError("Error while calculating poz of element")
-
-        xpozSmall = self.xpoz + widthLevel * self.widthSmall + 0.5 * self.widthSmall
-        ypozSmall = self.ypoz + depthLevel * self.depthSmall + 0.5 * self.depthSmall
-        zpozSmall = self.zpoz + level * self.heightSmall + 0.5 * self.heightSmall
-
-        return xpozSmall, ypozSmall, zpozSmall
-
-
-class smallBlock:
-    def __init__(self, xpoz, ypoz, zpoz, width, depth, height):
-        # define central cordinates of block
-        self.xpoz = xpoz
-        self.ypoz = ypoz
-        self.zpoz = zpoz
-
-        # define size of block in nm.
-        self.width = width
-        self.height = height
-        self.depth = depth
-
-    # overloading addition returns delta(x), delta(y), delta(z)
-    def __add__(self, other):
-        return (self.xpoz - other.xpoz), (self.ypoz - other.ypoz), (self.zpoz - other.zpoz)
-
-'''
 
 
 class Ellipse(Block):
@@ -152,7 +76,6 @@ class Ellipse(Block):
 def radius(x, y, z):
     return mt.sqrt(x ** 2 + y ** 2 + z ** 2)
 
-
 def wspolczynnik(delx, dely, delz, x, y, z, emitter):
     xx = abs(x - delx) / (emitter.widthSmall)
     yy = abs(y - dely) / (emitter.heightSmall)
@@ -166,7 +89,6 @@ def wspolczynnik(delx, dely, delz, x, y, z, emitter):
         return 2.0
     else:
         return -1.0
-
 
 def f(x, y, z):
     R = radius(x, y, z)
@@ -193,7 +115,6 @@ def f(x, y, z):
     part4 = (1 / 6.0) * R * (2 * x ** 2 - y ** 2 - z ** 2)
 
     return part1 + part2 - part3 + part4
-
 
 def g(x, y, z):
     R = radius(x, y, z)
@@ -232,7 +153,6 @@ def g(x, y, z):
 
     return part1 + part2 + part3 - part4 - part5 - part6 - part7
 
-
 def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
@@ -247,7 +167,6 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
 
     return Nxx
 
-
 def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
@@ -261,3 +180,6 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
                 Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * g(x, y, z)
 
     return Nxy
+
+def calculateDistance(cell1, cell2):
+    return abs(cell1[0]-cell2[0]), abs(cell1[1]-cell2[1]), abs(cell1[2]-cell2[2])

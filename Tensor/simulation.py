@@ -4,27 +4,13 @@ import multiprocessing
 
 
 def simulateRectangular(emi, rec):
-    #percents = Thread()
-    
-    
-    '''if em.shape =="rectangle":
-        emitter = block(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
-    else:
-        pass
-
-    if rec.shape =="ellipse":
-        receiver = block(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl) #if shape == 'ellipse'
-    else:
-        pass'''
-
-    #emitter = Rectangle(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
-    emitter = Ellipse(1, 1, 1, 1, 0, 0, 0, 100, 100, 100)
-    print(emitter.ifInStructure(0,0,1.1))
+    emitter = Rectangle(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl, emi.heightEl)
+    emitter.createStructure()
+    receiver = Rectangle(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
+    receiver.createStructure()
 
 
-    #receiver = Rectangle(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
-
-
+    #print("SMS: {}".format(emitter.smallBlocksStructure[0]))
 
 
     '''#for each small part create object
@@ -46,7 +32,7 @@ def simulateRectangular(emi, rec):
         dx, dy, dz = receiver.getSmallSize()
         
         receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
-    
+    '''
     thread = []
     
     nThreads = multiprocessing.cpu_count()
@@ -65,7 +51,7 @@ def simulateRectangular(emi, rec):
             thisThreadEnd = onThread * (i+1)
         
         
-        process = multiprocessing.Process(target=calculateAllAverages, args=(thisThreadStart, thisThreadEnd, nThreads, receiver, emitter, receiverDivided, emitterDivided, avgMatrix))
+        process = multiprocessing.Process(target=calculateAllAverages, args=(thisThreadStart, thisThreadEnd, nThreads, receiver, emitter, avgMatrix))
         
         thread.append(process)
         thread[i].start()
@@ -83,7 +69,8 @@ def simulateRectangular(emi, rec):
     #divide sum by all elements
     for k in range(len(avgMatrix[0])):
         finalMatrix[k]/=len(avgMatrix)
-        finalMatrix[k]*=(emitter.nElements/(4*mt.pi*emitterDivided[0].width*emitterDivided[0].depth*emitterDivided[0].height))
+        #ERROR HERE
+        finalMatrix[k]*=(emitter.nElements/(4*mt.pi*emitter.widthSmall*emitter.depthSmall*emitter.heightSmall))
 
 
     avgMatrix = []
@@ -92,7 +79,7 @@ def simulateRectangular(emi, rec):
     print("[",finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
 
 
-def calculateAllAverages(start, stop, nThreads, receiver, emitter, receiverDivided, emitterDivided, avgMatrix):
+def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
     #avgMatrix = []
     print(start, stop)
     for j in range(start, stop):
@@ -110,21 +97,21 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, receiverDivid
         
         for i in range(emitter.nElements):
             
-            delx, dely, delz = (emitterDivided[i]+receiverDivided[j])
+            delx, dely, delz = calculateDistance(emitter.smallBlocksStructure[i], receiver.smallBlocksStructure[j])
             
-            dx = emitterDivided[i].width
-            dy = emitterDivided[i].depth
-            dz = emitterDivided[i].height
+            dx = emitter.width
+            dy = emitter.depth
+            dz = emitter.height
             
-            a11 += calculateNxx(delx, dely, delz, dx, dy, dz,emitter)
-            a12 += calculateNxy(delx, dely, delz, dx, dy, dz,emitter)
-            a13 += calculateNxy(delx, delz, dely, dx, dz, dy,emitter)
+            a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
+            a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
+            a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
             #a21 = a12
-            a22 += calculateNxx(dely, delx, delz, dy, dx, dz,emitter)
-            a23 += calculateNxy(dely, delz, delx, dy, dz, dx,emitter)
+            a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
+            a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter)
             #a31 = a13
             #a32 = a23
-            a33 += calculateNxx(delz, dely, delx, dz, dy, dx,emitter)
+            a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
 
         a11=a11/emitter.nElements
         a12=a12/emitter.nElements
@@ -134,4 +121,4 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, receiverDivid
         a33=a33/emitter.nElements
 
         avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
-    return avgMatrix'''
+    return avgMatrix
