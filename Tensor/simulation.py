@@ -69,7 +69,7 @@ def simulateRectangular(emi, rec):
     #divide sum by all elements
     for k in range(len(avgMatrix[0])):
         finalMatrix[k]/=len(avgMatrix)
-        #ERROR HERE
+        #ERROR HERE WITH
         finalMatrix[k]*=(emitter.nElements/(4*mt.pi*emitter.widthSmall*emitter.depthSmall*emitter.heightSmall))
 
 
