@@ -166,9 +166,6 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
     def add_post(self, post_text):
         print(post_text)
 
-    def done(self):
-        pass
-
     def helpWindow(self):
         window = HelpWindow(self)
         window.show()

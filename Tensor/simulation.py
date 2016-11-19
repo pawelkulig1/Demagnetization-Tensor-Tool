@@ -9,30 +9,6 @@ def simulateRectangular(emi, rec):
     receiver = Rectangle(rec.width, rec.depth, rec.height, rec.x, rec.y, rec.z, rec.widthEl, rec.depthEl, rec.heightEl)
     receiver.createStructure()
 
-
-    #print("SMS: {}".format(emitter.smallBlocksStructure[0]))
-
-
-    '''#for each small part create object
-
-    emitterDivided = []
-    
-    
-    for i in range(emitter.nElements):
-        x, y, z = emitter.smallPoz(i)
-        dx, dy, dz = emitter.getSmallSize()
-        #if emitter.shape == "ellipse":
-        #    pass
-        #else:
-        emitterDivided.append(smallBlock(x,y,z, dx, dy, dz))
-
-    receiverDivided = []
-    for i in range(receiver.nElements):
-        x, y, z = receiver.smallPoz(i)
-        dx, dy, dz = receiver.getSmallSize()
-        
-        receiverDivided.append(smallBlock(x,y,z, dx, dy, dz))
-    '''
     thread = []
     
     nThreads = multiprocessing.cpu_count()
@@ -62,16 +38,15 @@ def simulateRectangular(emi, rec):
         
     finalMatrix = [0,0,0,0,0,0,0,0,0]
     #create sum of all matrixes to calculate average
-    for k in range(len(avgMatrix)):
-        for i in range(len(avgMatrix[0])):
+    for k,e in enumerate(avgMatrix):
+        for i,e  in enumerate(avgMatrix[0]):
             finalMatrix[i] += avgMatrix[k][i]
-        
-    #divide sum by all elements
-    for k in range(len(avgMatrix[0])):
-        finalMatrix[k]/=len(avgMatrix)
-        #ERROR HERE WITH
-        finalMatrix[k]*=(emitter.nElements/(4*mt.pi*emitter.widthSmall*emitter.depthSmall*emitter.heightSmall))
 
+
+    #divide sum by all elements
+    for k,e in enumerate(avgMatrix[0]):
+        finalMatrix[k]/=len(avgMatrix)
+        finalMatrix[k]*=(emitter.nElements/(4*mt.pi*emitter.widthSmall*emitter.depthSmall*emitter.heightSmall))
 
     avgMatrix = []
     print("[",finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
@@ -92,16 +67,14 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
         a22 = 0
         a23 = 0
         a33 = 0
-        
-        #define threads
-        
+
         for i in range(emitter.nElements):
-            
+            #print("e: {}, r: {}".format(i, j))
             delx, dely, delz = calculateDistance(emitter.smallBlocksStructure[i], receiver.smallBlocksStructure[j])
-            
-            dx = emitter.width
-            dy = emitter.depth
-            dz = emitter.height
+            #print("delx, dely, delz: {}, {}, {}".format(delx, dely, delz))
+            dx = emitter.widthSmall
+            dy = emitter.depthSmall
+            dz = emitter.heightSmall
             
             a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
             a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)

@@ -34,6 +34,7 @@ class Block:
                 for k in range(self.hElements):
                     if self.isInStructure(startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k):
                         self.smallBlocksStructure.append([startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k])
+        self.nElements = len(self.smallBlocksStructure)
 
 
 class Rectangle(Block):
