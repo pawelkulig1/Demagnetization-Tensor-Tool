@@ -1,18 +1,29 @@
 class GuiData():
-    def __init__(self, width, depth, height, x, y, z, widthEl, depthEl, heightEl,):
-       self.width = width
-       self.depth = depth
-       self.height = height
-       self.x = x
-       self.y = y
-       self.z = z
-       self.widthEl = widthEl
-       self.depthEl = depthEl
-       self.heightEl = heightEl
-       self.formValidation()
+    def __init__(self, width, depth, height, x, y, z, widthEl, depthEl, heightEl, axis): #shape == 0 rect, shape==1 cyll
+        self.width = width
+        self.depth = depth
+        self.height = height
+        self.x = x
+        self.y = y
+        self.z = z
+        self.widthEl = widthEl
+        self.depthEl = depthEl
+        self.heightEl = heightEl
+        self.axis = axis
+        self.error = self.formValidation()
 
     def formValidation(self):
-        try:                                                           
+
+        if self.axis=="-1":
+            self.axis = -1
+        elif self.axis=="xy":
+            self.axis = 0
+        elif self.axis=="yz":
+            self.axis = 1
+        elif self.axis=="xz":
+            self.axis = 2
+
+        try:
             self.width = float(self.width)
             self.depth = float(self.depth)
             self.height = float(self.height)
@@ -22,7 +33,6 @@ class GuiData():
             self.widthEl = float(self.widthEl)
             self.depthEl = float(self.depthEl)
             self.heightEl = float(self.heightEl)
-            print(self.x, self.widthEl)
         except:
             #self.alert("Some emitter data are not numbers!")
                 return "alert", "Some data are not numbers!"
@@ -48,7 +58,7 @@ class GuiData():
 
         
         if self.widthEl*self.depthEl*self.heightEl>1000:
-            return "yesOrNo", "Huge amount of elements may have huge impact on calculation time"
+            return "yesOrNo", "Huge amount of elements may have big impact on calculation time"
 
         if self.widthEl<1:
             return  "alert", "Object must have minimum 1 element in width"
@@ -58,4 +68,6 @@ class GuiData():
 
         if self.heightEl<1:
             return  "alert", "Object must have minimum 1 element in height"
+
+        return "", ""
 

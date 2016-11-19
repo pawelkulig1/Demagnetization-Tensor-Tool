@@ -3,21 +3,10 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QThread, SIGNAL
 from mainWindow import Ui_mainWindow
 from helpWindow import Ui_helpWindow
-from simulation import simulateRectangular
+from simulation import *
 from parseGuiData import *
-
-
-class SimulateThread(QThread):
-    def __init__(self, emitter, collector):
-        QThread.__init__(self)
-        self.emitter = emitter
-        self.collector = collector
-
-    def __del__(self):
-        self.wait()
-
-    def run(self):
-        simulateRectangular(self.emitter, self.collector)
+import multiprocessing
+import time
 
 
 class HelpWindow(QtGui.QMainWindow, Ui_helpWindow):
@@ -35,7 +24,13 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
     def __init__(self, parent=None):
         super(MainScreen, self).__init__(parent)
         self.setupUi(self)
+        self.emitterComboBox.hide()
+        self.collectorComboBox.hide()
+        self.collectorComboBox.hide()
+        self.nThreads = multiprocessing.cpu_count()
+        self.threadNumberLineEdit.setText(str(self.nThreads))
         self.windowAction()
+        self.simulationInProgress = False
 
     def windowAction(self):
         self.simulateButton.clicked.connect(self.simulateButtonClicked)
@@ -43,6 +38,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.helpButton.clicked.connect(self.helpWindow)
         self.emitterRecRadioButton.toggled.connect(self.emitterRadioToggle)
         self.collectorRecRadioButton.toggled.connect(self.collectorRadioToggle)
+
 
     def emitterRadioToggle(self):
         if self.emitterRecRadioButton.isChecked():
@@ -52,6 +48,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             self.emitterDepthLineEdit.move(60, 40)
             self.emitterWidthMetersLabel.move(150, 22)
             self.emitterDepthMetersLabel.move(150, 42)
+            self.emitterComboBox.hide()
         else:
             self.emitterWidthLabel.setText("A Factor")
             self.emitterDepthLabel.setText("B Factor")
@@ -59,6 +56,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             self.emitterDepthLineEdit.move(70, 40)
             self.emitterWidthMetersLabel.move(160, 22)
             self.emitterDepthMetersLabel.move(160, 42)
+            self.emitterComboBox.show()
 
     def collectorRadioToggle(self):
         if self.collectorRecRadioButton.isChecked():
@@ -68,6 +66,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             self.collectorDepthLineEdit.move(60, 40)
             self.collectorWidthMetersLabel.move(150, 22)
             self.collectorDepthMetersLabel.move(150, 42)
+            self.collectorComboBox.hide()
         else:
             self.collectorWidthLabel.setText("A Factor")
             self.collectorDepthLabel.setText("B Factor")
@@ -75,8 +74,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             self.collectorDepthLineEdit.move(70, 40)
             self.collectorWidthMetersLabel.move(160, 22)
             self.collectorDepthMetersLabel.move(160, 42)
-
-            # self.collectorSizeGroupBox.hide()
+            self.collectorComboBox.show()
 
     def alert(self, text, details=""):
         msg = QtGui.QMessageBox()
@@ -96,20 +94,23 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
             return 0
 
     def simulateButtonClicked(self):
-        print("simulation started")
 
+        self.simulateButton.setText("Simulating...")
         self.setProgressBar(0)
 
         if self.emitterRecRadioButton.isChecked():
             self.emitterShape = "r"
+            self.emitterAxis = "-1"
         else:
             self.emitterShape = "c"
+            self.emitterAxis = str(self.emitterComboBox.currentText())
 
-        # print(self.emitterCylRadioButton.isChecked())
         if self.collectorRecRadioButton.isChecked():
             self.collectorShape = "r"
+            self.collectorAxis = "-1"
         else:
             self.collectorShape = "c"
+            self.collectorAxis = str(self.collectorComboBox.currentText())
 
         self.emitterWidth = (self.emitterWidthLineEdit.text())
         self.emitterDepth = (self.emitterDepthLineEdit.text())
@@ -123,8 +124,9 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.emitterDepthEl = (self.emitterElementsDepthLineEdit.text())
         self.emitterHeightEl = (self.emitterElementsHeightLineEdit.text())
 
+
         emitter = GuiData(self.emitterWidth, self.emitterDepth, self.emitterHeight, self.emitterX, self.emitterY, self.emitterZ, self.emitterWidthEl,
-                          self.emitterDepthEl, self.emitterHeightEl)
+                          self.emitterDepthEl, self.emitterHeightEl, self.emitterAxis)
 
         self.collectorWidth = (self.collectorWidthLineEdit.text())
         self.collectorDepth = (self.collectorDepthLineEdit.text())
@@ -138,33 +140,49 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.collectorDepthEl = (self.collectorElementsDepthLineEdit.text())
         self.collectorHeightEl = (self.collectorElementsHeightLineEdit.text())
 
+
         collector = GuiData(self.collectorWidth, self.collectorDepth, self.collectorHeight, self.collectorX, self.collectorY,
-                            self.collectorZ, self.collectorWidthEl,
-                            self.collectorDepthEl, self.collectorHeightEl)
+                            self.collectorZ, self.collectorWidthEl, self.collectorDepthEl, self.collectorHeightEl, self.collectorAxis)
 
-        print(emitter.widthEl)
-        #emitter.formValidation()
-        #collector.formValidation()
+        self.nThreads = int(self.threadNumberLineEdit.displayText())
 
-        #if eError == 'alert':
-        #    self.alert(eMsg, "emitter")'''
+        if emitter.error[0] == 'alert':
+            self.alert(emitter.error[1], "emitter")
+            return 0
+
+        if emitter.error[0] == "yesOrNo":
+            if self.areYouSure(emitter.error[1]):
+                pass
+            else:
+                return 0
+
+        if collector.error[0] == 'alert':
+            self.alert(collector.error[1], "collector")
+            return 0
+
+        if collector.error[0] == "yesOrNo":
+            if self.areYouSure(collector.error[1]):
+                pass
+            else:
+                return 0
 
 
+        self.get_thread = SimulateThread(emitter, collector, self.nThreads)
+        self.simulationInProgress = True
+        #self.connect(self.get_thread, SIGNAL("add_post(QString)"), self.add_post)
 
-        self.get_thread = SimulateThread(emitter, collector)
-        # print(self.connect(self.get_thread, SIGNAL("setProgressBar(QString)"), self.setProgressBar))
-        self.connect(self.get_thread, SIGNAL("add_post(QString)"), self.add_post)
-        self.connect(self.get_thread, SIGNAL("finished()"), self.done)
+
         self.get_thread.start()
-
-        # print("simulation finished succesfully")
-        return 1
+        self.connect(self.get_thread, SIGNAL("finished()"), self.done)
+        self.connect(self.get_thread, QtCore.SIGNAL('PROGRESS'), self.setProgressBar)
 
     def setProgressBar(self, value):
-        self.simulationProgressBar.setValue(value)
+        self.simulationProgressBar.setValue(int(value))
 
-    def add_post(self, post_text):
-        print(post_text)
+    def done(self):
+        self.simulationInProgress = False
+        self.setProgressBar(100)
+        self.simulateButton.setText("Simulate")
 
     def helpWindow(self):
         window = HelpWindow(self)

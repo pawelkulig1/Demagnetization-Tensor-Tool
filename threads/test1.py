@@ -1,42 +1,16 @@
-#!/usr/bin/python3
+def f1(x=[]):
+	print(x[0])
+	return x[0]
 
-import threading
-import time
+def f2(x=[]):
+	print(x[0])
+	x[0]=x[0]+1
+	return x[0]
 
-exitFlag = 0
-#testTab = []
-
-
-
-class myThread (threading.Thread):
-	def __init__(self, threadID, msg):
-		threading.Thread.__init__(self)
-		self.threadID = threadID
-		self.msg = msg
-        
-	def run(self):
-		printer(self.msg)
-
-def printer(txt):
-	return txt
+x = []
+x.append(2)
+f1(x)
+f2(x)
+f1(x)
 
 
-thread = []
-
-suma = 0
-
-for i in range(16000):
-	thread.append(myThread(i, i))
-	thread[i].start()
-
-#print("123")
-
-
-for i in range(16000):
-	print(thread[i].join())
-
-
-print (sum(testTab))
-print (len(testTab))
-
-print ("Exiting Main Thread")
