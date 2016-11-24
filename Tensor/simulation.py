@@ -64,6 +64,8 @@ class SimulateThread(QThread):
         for i in range(self.nThreads):
             thread[i].join()
 
+        #print(avgMatrix)
+
         finalMatrix = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         # create sum of all matrixes to calculate average
         for k, e in enumerate(avgMatrix):

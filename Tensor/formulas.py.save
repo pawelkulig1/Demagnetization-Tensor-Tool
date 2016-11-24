@@ -53,28 +53,30 @@ class Ellipse(Block):
     def __init__(self, a, b, height, axis, xpoz, ypoz, zpoz, wElements, dElements, hElements):
         # axis is 0 for x,y; 1 for y,z; and 2 for x,z
         self.axis = axis
-        #if self.axis == 0:
-        super(Ellipse, self).__init__(a, b, height, xpoz, ypoz, zpoz, wElements, dElements, hElements)
-        '''elif self.axis == 1:
+        if self.axis == 0:
+            super(Ellipse, self).__init__(a, b, height, xpoz, ypoz, zpoz, wElements, dElements, hElements)
+        elif self.axis == 1:
             super(Ellipse, self).__init__(height, a, b, xpoz, ypoz, zpoz, hElements, wElements, dElements)
         else:
             super(Ellipse, self).__init__(a, height, b, xpoz, ypoz, zpoz, wElements, dElements, hElements)
-        '''
+
     def isInStructure(self, xpoint, ypoint, zpoint):
         if self.axis == 0:
-            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth- self.ypoz) ** 2 /                                    self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
-                return True
+        	if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth- self.ypoz) ** 2 /                                    self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
+            return True
 
+        return False
 
         elif self.axis == 1:
-            if ((ypoint - self.depth - self.ypoz) ** 2 / (self.depth ** 2)) + ((zpoint - self.height - self.zpoz) ** 2 / (self.height ** 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
+            #if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth - self.ypoz) ** 2 / self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
+            print(((ypoint - self.width - self.ypoz) ** 2 / self.width ** 2) + ((zpoint - self.depth - self.zpoz) ** 2 / self.depth ** 2))
+            if ((ypoint - self.width - self.ypoz) ** 2 / self.width ** 2) + ((zpoint - self.depth - self.zpoz) ** 2 / self.depth ** 2) <= 1 and xpoint <= self.xpoz + self.height and xpoint >= self.xpoz:
                 return True
 
         else:
-            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((zpoint - self.height - self.zpoz) ** 2 / self.height ** 2) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
-                return True
-            
-        return False
+            #if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth - self.ypoz) ** 2 / self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
+            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((zpoint - self.depth - self.zpoz) ** 2 / self.depth ** 2) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
+                return True'''
 
 
 def radius(x, y, z):
