@@ -58,7 +58,7 @@ class GuiData():
 
         
         if self.widthEl*self.depthEl*self.heightEl>1000:
-            return "yesOrNo", "Huge amount of elements may have big impact on calculation time"
+            return "yesOrNo", "Huge amount of elements may have big impact on calculation time are you sure you want to continue?"
 
         if self.widthEl<1:
             return  "alert", "Object must have minimum 1 element in width"

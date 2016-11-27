@@ -79,9 +79,12 @@ class SimulateThread(QThread):
             emitter.nElements / (4 * mt.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
 
         avgMatrix = []
-        print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
-        print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
-        print("[", finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
+        #print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
+        #print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
+        #print("[", finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
+        self.emit(QtCore.SIGNAL('FINAL_MATRIX'), finalMatrix)
+
+        #return finalMatrix
 
     def calculateAllAverages(self, start, stop, nThreads, receiver, emitter, avgMatrix):
         for j in range(start, stop):

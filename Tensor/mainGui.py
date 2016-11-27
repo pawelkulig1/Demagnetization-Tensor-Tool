@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QThread, SIGNAL
 from mainWindow import Ui_mainWindow
 from helpWindow import Ui_helpWindow
+from result import Ui_result
 from simulation import *
 from parseGuiData import *
 import multiprocessing
@@ -19,6 +20,31 @@ class HelpWindow(QtGui.QMainWindow, Ui_helpWindow):
     def closeWindow(self):
         self.close()
 
+
+class ResultWindow(QtGui.QMainWindow, Ui_result):
+    def __init__(self, parent=None):
+        super(ResultWindow, self).__init__(parent)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setupUi(self)
+        self.closePushButton.clicked.connect(self.closeWindow)
+        self.values = 0
+
+    def setResult(self):
+        self.a11_lineEdit.setText(str(self.values[0]))
+        self.a12_lineEdit.setText(str(self.values[1]))
+        self.a13_lineEdit.setText(str(self.values[2]))
+        self.a21_lineEdit.setText(str(self.values[3]))
+        self.a22_lineEdit.setText(str(self.values[4]))
+        self.a23_lineEdit.setText(str(self.values[5]))
+        self.a31_lineEdit.setText(str(self.values[6]))
+        self.a32_lineEdit.setText(str(self.values[7]))
+        self.a33_lineEdit.setText(str(self.values[8]))
+
+        #pass
+
+
+    def closeWindow(self):
+        self.close()
 
 class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
     def __init__(self, parent=None):
@@ -175,9 +201,19 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.get_thread.start()
         self.connect(self.get_thread, SIGNAL("finished()"), self.done)
         self.connect(self.get_thread, QtCore.SIGNAL('PROGRESS'), self.setProgressBar)
+        self.connect(self.get_thread, QtCore.SIGNAL("FINAL_MATRIX"), self.showResult)
 
     def setProgressBar(self, value):
         self.simulationProgressBar.setValue(int(value))
+
+    def showResult(self, value):
+        print("{}".format(value))
+        window = ResultWindow(self)
+        window.values = value
+        window.setResult()
+        window.show()
+
+
 
     def done(self):
         self.simulationInProgress = False
