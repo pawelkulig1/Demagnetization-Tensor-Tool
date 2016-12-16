@@ -66,8 +66,8 @@ emitter = parseData.ParseData(emitterWidth, emitterDepth, emitterHeight, emitter
                   emitterDepthEl, emitterHeightEl, emitterAxis)
 
 
-collector = parseData.ParseData(emitterWidth, emitterDepth, emitterHeight, emitterX, emitterY,
-                    emitterZ, emitterWidthEl, emitterDepthEl, emitterHeightEl,
+collector = parseData.ParseData(collectorWidth, collectorDepth, collectorHeight, collectorX, collectorY,
+                    collectorZ, collectorWidthEl, collectorDepthEl, collectorHeightEl,
                     collectorAxis)
 
 if emitter.error[0] == 'alert':
