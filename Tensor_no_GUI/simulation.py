@@ -1,5 +1,6 @@
 from formulas import *
 import multiprocessing
+from time import sleep
 
 def simulate(emi, rec, nThreads=0):
     if emi.axis == '-1':
@@ -56,10 +57,15 @@ def simulate(emi, rec, nThreads=0):
         for i, e in enumerate(avgMatrix[0]):
             finalMatrix[i] += avgMatrix[k][i]
 
+
+
     # divide sum by all elements
     for k, e in enumerate(avgMatrix[0]):
         finalMatrix[k] /= len(avgMatrix)
+        print(k, finalMatrix[k])
         finalMatrix[k] *= (emitter.nElements / (4 * mt.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
+
+    print("fm: ",finalMatrix[7])
 
     avgMatrix = []
     print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
@@ -69,6 +75,7 @@ def simulate(emi, rec, nThreads=0):
 
 
 def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
+    temp = 0
     for j in range(start, stop):
         if (start == 0):
             print(((j * 100) / receiver.nElements) * nThreads, "%")
@@ -86,6 +93,8 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
             dy = emitter.depthSmall
             dz = emitter.heightSmall
 
+
+
             a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
             a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
             a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
@@ -95,6 +104,9 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
             # a31 = a13
             # a32 = a23
             a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
+            print("distances:", delx, dely, delz, "val: ", a33)
+            #print(calculateNxx(1.000000003, 0.0, 0.0, dz, dy, dx, emitter))
+            sleep(1)
 
         a11 = a11 / emitter.nElements
         a12 = a12 / emitter.nElements
@@ -102,7 +114,8 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
         a22 = a22 / emitter.nElements
         a23 = a23 / emitter.nElements
         a33 = a33 / emitter.nElements
+        temp+=a23
+        print(temp)
 
         avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
     return avgMatrix
-

@@ -69,7 +69,7 @@ class Ellipse(Block):
         else:
             if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((zpoint - self.height - self.zpoz) ** 2 / self.height ** 2) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
                 return True
-            
+
         return False
 
 
@@ -78,8 +78,8 @@ def radius(x, y, z):
 
 def wspolczynnik(delx, dely, delz, x, y, z, emitter):
     xx = abs(x - delx) / (emitter.widthSmall)
-    yy = abs(y - dely) / (emitter.heightSmall)
-    zz = abs(z - delz) / (emitter.depthSmall)
+    yy = abs(y - dely) / (emitter.depthSmall)
+    zz = abs(z - delz) / (emitter.heightSmall)
 
     if int(xx + yy + zz + 0.5) == 0:
         return 8.0
@@ -178,7 +178,7 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
         for y in yran:
             for z in zran:
                 Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * g(x, y, z)
-
+                print(x,y,z, Nxx)
     return Nxy
 
 def calculateDistance(cell1, cell2):
