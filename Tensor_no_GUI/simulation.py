@@ -1,8 +1,13 @@
 from formulas import *
 import multiprocessing
 from time import sleep
+import mpmath as mp
+import math as mt
+
+
 
 def simulate(emi, rec, nThreads=0):
+    mp.mp.dps = 64
     if emi.axis == '-1':
         emitter = Rectangle(emi.width, emi.depth, emi.height, emi.x, emi.y, emi.z, emi.widthEl, emi.depthEl,
                             emi.heightEl)
@@ -30,7 +35,7 @@ def simulate(emi, rec, nThreads=0):
 
     for i in range(nThreads):
 
-        onThread = mt.floor(receiver.nElements / nThreads)
+        onThread = mp.floor(receiver.nElements / nThreads)
         thisThreadStart = onThread * (i + 1)
 
         if i == nThreads - 1:
@@ -62,11 +67,12 @@ def simulate(emi, rec, nThreads=0):
     # divide sum by all elements
     for k, e in enumerate(avgMatrix[0]):
         finalMatrix[k] /= len(avgMatrix)
-        print(k, finalMatrix[k])
-        finalMatrix[k] *= (emitter.nElements / (4 * mt.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
+        #print(k, finalMatrix[k])
+        finalMatrix[k] *= (emitter.nElements / (4 * mp.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
 
     print("fm: ",finalMatrix[7])
 
+    mp.mp.dps = 10
     avgMatrix = []
     print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
     print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
@@ -75,19 +81,24 @@ def simulate(emi, rec, nThreads=0):
 
 
 def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
-    temp = 0
+    #temp = 0
+    start = int(float(mp.nstr(start)))
+    stop = int(float(mp.nstr(stop)))
+
     for j in range(start, stop):
         if (start == 0):
             print(((j * 100) / receiver.nElements) * nThreads, "%")
 
-        a11 = 0
-        a12 = 0
-        a13 = 0
-        a22 = 0
-        a23 = 0
-        a33 = 0
+        a11 = 0.0
+        a12 = 0.0
+        a13 = 0.0
+        a22 = 0.0
+        a23 = 0.0
+        a33 = 0.0
 
-        for i in range(emitter.nElements):
+        emEle = int(float(mp.nstr(emitter.nElements)))
+
+        for i in range(emEle):
             delx, dely, delz = calculateDistance(emitter.smallBlocksStructure[i], receiver.smallBlocksStructure[j])
             dx = emitter.widthSmall
             dy = emitter.depthSmall
@@ -95,18 +106,18 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
 
 
 
-            a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
+            #a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
             a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
             a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
             # a21 = a12
-            a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
+            #a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
             a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter)
             # a31 = a13
             # a32 = a23
             a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
-            print("distances:", delx, dely, delz, "val: ", a33)
-            #print(calculateNxx(1.000000003, 0.0, 0.0, dz, dy, dx, emitter))
-            sleep(1)
+            #print("distances:", delz, dely, delx, "val: ", a33)
+            #print(calculateNxx(delz, dely, delx, dz, dy, dx, emitter))
+            #sleep(1)
 
         a11 = a11 / emitter.nElements
         a12 = a12 / emitter.nElements
@@ -114,8 +125,8 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
         a22 = a22 / emitter.nElements
         a23 = a23 / emitter.nElements
         a33 = a33 / emitter.nElements
-        temp+=a23
-        print(temp)
+        #temp+=a23
+        #print(temp)
 
         avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
     return avgMatrix
