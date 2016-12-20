@@ -106,11 +106,11 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
 
 
 
-            #a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
+            a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
             a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
             a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
             # a21 = a12
-            #a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
+            a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
             a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter)
             # a31 = a13
             # a32 = a23
