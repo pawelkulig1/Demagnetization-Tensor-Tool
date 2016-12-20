@@ -1,6 +1,5 @@
 import mpmath as mp
 
-
 class Block:
     def __init__(self, width, depth, height, xpoz, ypoz, zpoz, wElements, dElements, hElements):
         self.smallBlocksStructure = []
@@ -76,20 +75,7 @@ class Ellipse(Block):
 def radius(x, y, z):
     return mp.sqrt(mp.power(x, 2) + mp.power(y, 2) + mp.power(z, 2))
 
-def wspolczynnik(delx, dely, delz, x, y, z, emitter):
-    '''xx = mp.abs(x - delx) / (emitter.widthSmall)
-    yy = mp.abs(y - dely) / (emitter.depthSmall)
-    zz = mp.abs(z - delz) / (emitter.heightSmall)
-
-    if mp.nint(xx + yy + zz + 0.5) == 0:
-        return 8.0
-    if mp.nint(xx + yy + zz + 0.5) == 1:
-        return -4.0
-    if mp.nint(xx + yy + zz + 0.5) == 2:
-        return 2.0
-    else:
-        return -1.0'''
-        
+def wspolczynnik(delx, dely, delz, x, y, z, emitter):       
     counter = 0
     if delx == x:
         counter+=1
@@ -181,6 +167,8 @@ def g(x, y, z):
 
     return part1 + part2 + part3 - part4 - part5 - part6 - part7
 
+
+
 def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
     #mp.dps = 128
     xran = [delx - dx, delx, delx + dx]
@@ -192,7 +180,7 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
     for x in xran:
         for y in yran:
             for z in zran:
-                Nxx += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * f(x, y, z))
+                Nxx += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * fLookUP(x, y, z))
                 #print(x,y,z,wspolczynnik(delx, dely, delz, x, y, z, emitter),  f(x, y, z), Nxx)
                 #x
                 #print(delx, dely, delz, dx, dy, dz)
@@ -210,9 +198,16 @@ def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
     for x in xran:
         for y in yran:
             for z in zran:
-                Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * g(x, y, z)
+                Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * gLookUP(x, y, z)
 
     return Nxy
 
 def calculateDistance(cell1, cell2):
     return abs(cell1[0]-cell2[0]), abs(cell1[1]-cell2[1]), abs(cell1[2]-cell2[2])
+    
+
+fLookUP = mp.memoize(f)
+gLookUP = mp.memoize(g)    
+
+
+

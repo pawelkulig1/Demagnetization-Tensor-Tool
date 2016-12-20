@@ -13,7 +13,7 @@ emitterAxis = str("-1") #xy, yz, xz - possible values if we choose rectangle the
 #collectorShape = "r"
 #collectorAxis = str("yz")
 
-emitterWidth = ("50e-9") #width of whole structure which is going to be divided [nm]
+emitterWidth = ("1000e-9") #width of whole structure which is going to be divided [nm]
 emitterDepth = ("1e-9")
 emitterHeight = ("1e-9")
 
@@ -23,7 +23,7 @@ emitterX = ("0")  #[m]
 emitterY = ("0")
 emitterZ = ("0")
 
-emitterWidthEl = ("50") # on how many elements our structure will be divided it is important to make them cubic shape
+emitterWidthEl = ("1000") # on how many elements our structure will be divided it is important to make them cubic shape
 emitterDepthEl = ("1")
 emitterHeightEl = ("1")
 
@@ -34,7 +34,7 @@ emitterHeightEl = ("1")
 collectorShape = "r" #rectangle
 collectorAxis = "-1"
 
-collectorWidth = ("50e-9") #width of whole structure which is going to be divided [nm]
+collectorWidth = ("1000e-9") #width of whole structure which is going to be divided [nm]
 collectorDepth = ("1e-9")
 collectorHeight = ("1e-9")
 
@@ -44,7 +44,7 @@ collectorX = ("0")  #[m]
 collectorY = ("0")
 collectorZ = ("0")
 
-collectorWidthEl = ("50") # on how many elements our structure will be divided it is important to make them cubic shape
+collectorWidthEl = ("1000") # on how many elements our structure will be divided it is important to make them cubic shape
 collectorDepthEl = ("1")
 collectorHeightEl = ("1")
 

@@ -4,7 +4,8 @@ from time import sleep
 import mpmath as mp
 import math as mt
 
-
+calculateNxxLookUp = mp.memoize(calculateNxx)
+calculateNxyLookUp = mp.memoize(calculateNxy)
 
 def simulate(emi, rec, nThreads=0):
     mp.mp.dps = 64
@@ -70,13 +71,13 @@ def simulate(emi, rec, nThreads=0):
         #print(k, finalMatrix[k])
         finalMatrix[k] *= (emitter.nElements / (4 * mp.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
 
-    print("fm: ",finalMatrix[7])
-
     mp.mp.dps = 10
     avgMatrix = []
     print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
     print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
     print("[", finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
+    return finalMatrix
+
 
 
 
@@ -84,7 +85,7 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
     #temp = 0
     start = int(float(mp.nstr(start)))
     stop = int(float(mp.nstr(stop)))
-
+    
     for j in range(start, stop):
         if (start == 0):
             print(((j * 100) / receiver.nElements) * nThreads, "%")
@@ -106,15 +107,15 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
 
 
 
-            a11 += calculateNxx(delx, dely, delz, dx, dy, dz, emitter)
-            a12 += calculateNxy(delx, dely, delz, dx, dy, dz, emitter)
-            a13 += calculateNxy(delx, delz, dely, dx, dz, dy, emitter)
+            a11 += calculateNxxLookUp(delx, dely, delz, dx, dy, dz, emitter)
+            a12 += calculateNxyLookUp(delx, dely, delz, dx, dy, dz, emitter)
+            a13 += calculateNxyLookUp(delx, delz, dely, dx, dz, dy, emitter)
             # a21 = a12
-            a22 += calculateNxx(dely, delx, delz, dy, dx, dz, emitter)
-            a23 += calculateNxy(dely, delz, delx, dy, dz, dx, emitter)
+            a22 += calculateNxxLookUp(dely, delx, delz, dy, dx, dz, emitter)
+            a23 += calculateNxyLookUp(dely, delz, delx, dy, dz, dx, emitter)
             # a31 = a13
             # a32 = a23
-            a33 += calculateNxx(delz, dely, delx, dz, dy, dx, emitter)
+            a33 += calculateNxxLookUp(delz, dely, delx, dz, dy, dx, emitter)
             #print("distances:", delz, dely, delx, "val: ", a33)
             #print(calculateNxx(delz, dely, delx, dz, dy, dx, emitter))
             #sleep(1)
