@@ -94,9 +94,9 @@ def wspolczynnik(delx, dely, delz, x, y, z, emitter):
         return -1.0
 
 def f(x, y, z):
-	#x = mp.mpmathify(x)
-	#y = mp.mpmathify(y)
-	#z = mp.mpmathify(z)
+    x = mp.mpmathify(x)
+    y = mp.mpmathify(y)
+    z = mp.mpmathify(z)
 	
     R = radius(x, y, z)
 
@@ -105,12 +105,12 @@ def f(x, y, z):
     if x == 0 and z == 0 or y == 0:
         part1 = mp.mpmathify(0)
     else:
-        part1 = 0.5 * y * (mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
+        part1 = mp.mpf('0.5') * y * (mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
 
     if x == 0 and y == 0 or z == 0:
         part2 = 0
     else:
-        part2 = 0.5 * z * (mp.power(y, 2) - mp.power(x, 2)) * mp.asinh(z / (mp.sqrt(mp.power(x, 2) + mp.power(y, 2))))
+        part2 = mp.mpf('0.5') * z * (mp.power(y, 2) - mp.power(x, 2)) * mp.asinh(z / (mp.sqrt(mp.power(x, 2) + mp.power(y, 2))))
 
     if x == 0 or y == 0 or z == 0:
         part3 = 0
@@ -119,58 +119,56 @@ def f(x, y, z):
 
     # solving 0 division problem here
 
-    part4 = (1 / 6.0) * R * (2 * mp.power(x, 2) - mp.power(y, 2) - mp.power(z, 2))
+    part4 = mp.mpf('1 / 6') * R * (2 * mp.power(x, 2) - mp.power(y, 2) - mp.power(z, 2))
 
     return mp.mpmathify(part1 + part2 - part3 + part4)
 
 def g(x, y, z):
-    
-    #x = mp.mpmathify(x)
-	#y = mp.mpmathify(y)
-	#z = mp.mpmathify(z)
-	
-	
+    x = mp.mpmathify(x)
+    y = mp.mpmathify(y)
+    z = mp.mpmathify(z)
+
     R = radius(x, y, z)
 	
-	
     if x == 0 and y == 0:
-        part1 = 0
+        part1 = mp.mpf('0')
     else:
         part1 = x * y * z * mp.asinh(z / (mp.sqrt(mp.power(x, 2) + mp.power(y, 2))))
 
     if y == 0 and z == 0:
-        part2 = 0
+        part2 = mp.mpf('0')
     else:
-        part2 = (1 / 6.0) * y * (3 * mp.power(z, 2) - mp.power(y, 2)) * mp.asinh(x / (mp.sqrt(mp.power(y, 2) + mp.power(z, 2))))
+        part2 = mp.mpf('1 / 6') * y * (3 * mp.power(z, 2) - mp.power(y, 2)) * mp.asinh(x / (mp.sqrt(mp.power(y, 2) + mp.power(z, 2))))
 
     if x == 0 and z == 0:
         part3 = 0
     else:
-        part3 = (1 / 6.0) * x * (3 * mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
+        part3 = mp.mpf('1 / 6') * x * (3 * mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
 
     if y == 0:
         part4 = 0
     else:
-        part4 = 0.5 * mp.power(y, 2) * z * mp.atan((x * z) / (y * R))
+        part4 = mp.mpf('0.5') * mp.power(y, 2) * z * mp.atan((x * z) / (y * R))
 
     if x == 0:
         part5 = 0
     else:
-        part5 = 0.5 * mp.power(x, 2) * z * mp.atan((y * z) / (x * R))
+        part5 = mp.mpf('0.5') * mp.power(x, 2) * z * mp.atan((y * z) / (x * R))
 
     if z == 0:
         part6 = 0
     else:
-        part6 = (1 / 6.0) * mp.power(z, 3) * mp.atan((x * y) / (z * R))
+        part6 = mp.mpf('1 / 6') * mp.power(z, 3) * mp.atan((x * y) / (z * R))
 
-    part7 = (1 / 3.0) * x * y * R
-
+    part7 = mp.mpf('1 / 3') * x * y * R
     return part1 + part2 + part3 - part4 - part5 - part6 - part7
 
 
 
-def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
+def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, fLookUP):
     #mp.dps = 128
+    #fLookUP = mp.memoize(f)
+    
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
@@ -188,26 +186,27 @@ def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
     
     return Nxx
 
-def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
+def calculateNxy(delx, dely, delz, dx, dy, dz, emitter, gLookUP):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
-
+    #gLookUP = mp.memoize(g) 
     Nxy = 0
 
     for x in xran:
         for y in yran:
             for z in zran:
-                Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * gLookUP(x, y, z)
-
+                Nxy += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * gLookUP(x, y, z))
+                #print(wspolczynnik(delx, dely, delz, x, y, z, emitter), gLookUP(x, y, z))
+    
+    #print("NXY : ", Nxy)
+    
     return Nxy
 
 def calculateDistance(cell1, cell2):
-    return abs(cell1[0]-cell2[0]), abs(cell1[1]-cell2[1]), abs(cell1[2]-cell2[2])
+    return (mp.mpmathify(abs(cell1[0]-cell2[0])), mp.mpmathify(abs(cell1[1]-cell2[1])), mp.mpmathify(abs(cell1[2]-cell2[2])))
     
-
-fLookUP = mp.memoize(f)
-gLookUP = mp.memoize(g)    
-
+#fLookUP = mp.memoize(f)
+#gLookUP = mp.memoize(g)    
 
 
