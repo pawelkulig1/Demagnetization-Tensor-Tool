@@ -1,3 +1,4 @@
+from mpmath import *
 class ParseData():
     def __init__(self, width, depth, height, x, y, z, widthEl, depthEl, heightEl, axis): #shape == 0 rect, shape==1 cyll
         self.width = width
@@ -24,15 +25,15 @@ class ParseData():
             self.axis = 2
 
         try:
-            self.width = float(self.width)
-            self.depth = float(self.depth)
-            self.height = float(self.height)
-            self.x = float(self.x)
-            self.y = float(self.y)
-            self.z = float(self.z)
-            self.widthEl = float(self.widthEl)
-            self.depthEl = float(self.depthEl)
-            self.heightEl = float(self.heightEl)
+            self.width = mp.mpf(self.width)
+            self.depth = mp.mpf(self.depth)
+            self.height = mp.mpf(self.height)
+            self.x = mp.mpf(self.x)
+            self.y = mp.mpf(self.y)
+            self.z = mp.mpf(self.z)
+            self.widthEl = mp.mpf(self.widthEl)
+            self.depthEl = mp.mpf(self.depthEl)
+            self.heightEl = mp.mpf(self.heightEl)
         except:
             #self.alert("Some emitter data are not numbers!")
                 return "alert", "Some data are not numbers!"

@@ -28,10 +28,6 @@ class Block:
         startd = (self.depthSmall / 2) + self.ypoz
         starth = (self.heightSmall / 2) + self.zpoz
 
-        #print(startw, starth, startd, self.widthSmall, self.depthSmall, self.heightSmall)
-        #print(self.width, self.depth, self.height)
-        #print(self.wElements, self.dElements, self.hElements)
-
         for i in mp.arange(self.wElements):
             for j in mp.arange(self.dElements):
                 for k in mp.arange(self.hElements):
@@ -57,16 +53,16 @@ class Ellipse(Block):
 
     def isInStructure(self, xpoint, ypoint, zpoint):
         if self.axis == 0:
-            if (mp.power((xpoint - self.width - self.xpoz), 2) / mp.power(self.width, 2) + (mp.power((ypoint - self.depth- self.ypoz), 2) /mp.power(self.depth, 2)) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz):
+            if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2) + (mp.power((ypoint - (self.depth/2)- self.ypoz), 2) /mp.power((self.depth/2), 2)) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz):
                 return True
 
 
         elif self.axis == 1:
-            if (mp.power((ypoint - self.depth - self.ypoz), 2) / mp.power(self.depth, 2)) + (mp.power((zpoint - self.height - self.zpoz), 2) / mp.power(self.height, 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
+            if (mp.power((ypoint - (self.depth/2) - self.ypoz), 2) / mp.power((self.depth/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
                 return True
 
         else:
-            if (mp.power((xpoint - self.width - self.xpoz), 2) / mp.power(self.width, 2)) + (mp.power((zpoint - self.height - self.zpoz), 2) / mp.power(self.height, 2)) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
+            if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
                 return True
 
         return False
@@ -161,52 +157,39 @@ def g(x, y, z):
         part6 = mp.mpf('1 / 6') * mp.power(z, 3) * mp.atan((x * y) / (z * R))
 
     part7 = mp.mpf('1 / 3') * x * y * R
-    return part1 + part2 + part3 - part4 - part5 - part6 - part7
+    return mp.mpmathify(part1 + part2 + part3 - part4 - part5 - part6 - part7)
 
 
 
 def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, fLookUP):
-    #mp.dps = 128
-    #fLookUP = mp.memoize(f)
-    
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
 
-    Nxx = 0
+    Nxx = mp.mpf('0')
 
     for x in xran:
         for y in yran:
             for z in zran:
                 Nxx += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * fLookUP(x, y, z))
-                #print(x,y,z,wspolczynnik(delx, dely, delz, x, y, z, emitter),  f(x, y, z), Nxx)
-                #x
-                #print(delx, dely, delz, dx, dy, dz)
-    #print(Nxx)
-    
+
     return Nxx
 
 def calculateNxy(delx, dely, delz, dx, dy, dz, emitter, gLookUP):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
-    #gLookUP = mp.memoize(g) 
-    Nxy = 0
+    Nxy = mp.mpf('0')
 
     for x in xran:
         for y in yran:
             for z in zran:
                 Nxy += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * gLookUP(x, y, z))
-                #print(wspolczynnik(delx, dely, delz, x, y, z, emitter), gLookUP(x, y, z))
-    
-    #print("NXY : ", Nxy)
-    
     return Nxy
 
 def calculateDistance(cell1, cell2):
-    return (mp.mpmathify(abs(cell1[0]-cell2[0])), mp.mpmathify(abs(cell1[1]-cell2[1])), mp.mpmathify(abs(cell1[2]-cell2[2])))
+    return (mp.mpmathify((cell1[0]-cell2[0])), mp.mpmathify((cell1[1]-cell2[1])), mp.mpmathify((cell1[2]-cell2[2])))
     
-#fLookUP = mp.memoize(f)
-#gLookUP = mp.memoize(g)    
+
 
 

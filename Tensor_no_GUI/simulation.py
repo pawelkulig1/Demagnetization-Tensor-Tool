@@ -31,7 +31,6 @@ def simulate(emi, rec, nThreads=0):
 
     if nThreads < 1:
         nThreads = multiprocessing.cpu_count()
-    print(nThreads)
     print("Blocks in simulation: ", receiver.nElements*emitter.nElements)
     manager = multiprocessing.Manager()
     avgMatrix = manager.list()
@@ -45,16 +44,13 @@ def simulate(emi, rec, nThreads=0):
             thisThreadEnd = receiver.nElements
         else:
             thisThreadEnd = onThread * (i + 1)
-        print("inLoop: ",i, thisThreadStart, thisThreadEnd)
         process = multiprocessing.Process(target=calculateAllAverages, args=(
             thisThreadStart, thisThreadEnd, nThreads, receiver, emitter, avgMatrix))
-        #print(thisThreadStart, thisThreadEnd)
         thread.append(process)
         thread[i].start()
 
     # starting calculations in main thread to send signals to GUI
     #calculateAllAverages(0, mt.floor(receiver.nElements / nThreads), nThreads, receiver, emitter,avgMatrix)
-    #print(thisThreadStart, thisThreadEnd)
     for i in range(nThreads):
         thread[i].join()
 
@@ -64,12 +60,9 @@ def simulate(emi, rec, nThreads=0):
         for i, e in enumerate(avgMatrix[0]):
             finalMatrix[i] += avgMatrix[k][i]
 
-
-
     # divide sum by all elements
     for k, e in enumerate(avgMatrix[0]):
         finalMatrix[k] /= len(avgMatrix)
-        #print(k, finalMatrix[k])
         finalMatrix[k] *= (emitter.nElements / (4 * mp.pi * emitter.widthSmall * emitter.depthSmall * emitter.heightSmall))
 
     mp.mp.dps = 15
@@ -84,28 +77,24 @@ def simulate(emi, rec, nThreads=0):
 
 
 def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
-    #temp = 0
     calculateNxxLookUp = mp.memoize(calculateNxx)
     calculateNxyLookUp = mp.memoize(calculateNxy)
     fLookUP = mp.memoize(f)
     gLookUP = mp.memoize(g)
     
-    
     start = int(float(mp.nstr(start)))
     stop = int(float(mp.nstr(stop)))
-    
-    print(start, stop)
     
     for j in range(start, stop):
         if (start == 0):
             print(mp.nstr(((j * 100) / receiver.nElements) * nThreads, 4), "%")
 
-        a11 = 0.0
-        a12 = 0.0
-        a13 = 0.0
-        a22 = 0.0
-        a23 = 0.0
-        a33 = 0.0
+        a11 = mp.mpf('0')
+        a12 = mp.mpf('0')
+        a13 = mp.mpf('0')
+        a22 = mp.mpf('0')
+        a23 = mp.mpf('0')
+        a33 = mp.mpf('0')
 
         emEle = int(float(mp.nstr(emitter.nElements)))
 
@@ -118,20 +107,13 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
 
 
             a11 += calculateNxxLookUp(delx, dely, delz, dx, dy, dz, emitter, fLookUP)
-            #print("a12 \n")
             a12 += calculateNxyLookUp(delx, dely, delz, dx, dy, dz, emitter, gLookUP)
-            #print("a13 \n")
             a13 += calculateNxyLookUp(delx, delz, dely, dx, dz, dy, emitter, gLookUP)
-            # a21 = a12
             a22 += calculateNxxLookUp(dely, delx, delz, dy, dx, dz, emitter, fLookUP)
-            #print("a23 \n")
             a23 += calculateNxyLookUp(dely, delz, delx, dy, dz, dx, emitter, gLookUP)
             # a31 = a13
             # a32 = a23
             a33 += calculateNxxLookUp(delz, dely, delx, dz, dy, dx, emitter, fLookUP)
-            #print("distances:", delz, dely, delx, "val: ", a33)
-            #print("========================================", calculateNxyLookUp(delx, dely, delz, dx, dy, dz, emitter))
-            #sleep(1)
 
         a11 = a11 / emitter.nElements
         a12 = a12 / emitter.nElements
@@ -139,9 +121,7 @@ def calculateAllAverages(start, stop, nThreads, receiver, emitter, avgMatrix):
         a22 = a22 / emitter.nElements
         a23 = a23 / emitter.nElements
         a33 = a33 / emitter.nElements
-        #temp+=a23
-        #print(temp)
+
 
         avgMatrix.append([a11, a12, a13, a12, a22, a23, a13, a23, a33])
-    print("end!: ", len(avgMatrix), start)
     return avgMatrix
