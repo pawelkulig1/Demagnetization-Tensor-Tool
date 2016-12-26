@@ -207,7 +207,7 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
         self.simulationProgressBar.setValue(int(value))
 
     def showResult(self, value):
-        print("{}".format(value))
+        #print("{}".format(value))
         window = ResultWindow(self)
         window.values = value
         window.setResult()

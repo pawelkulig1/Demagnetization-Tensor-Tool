@@ -1,25 +1,24 @@
-import math as mt
+import mpmath as mp
 
 class Block:
     def __init__(self, width, depth, height, xpoz, ypoz, zpoz, wElements, dElements, hElements):
         self.smallBlocksStructure = []
-        self.xpoz = xpoz
-        self.ypoz = ypoz
-        self.zpoz = zpoz
+        self.xpoz = mp.mpmathify(xpoz)
+        self.ypoz = mp.mpmathify(ypoz)
+        self.zpoz = mp.mpmathify(zpoz)
 
-        self.width = width
-        self.depth = depth
-        self.height = height
+        self.width = mp.mpmathify(width)
+        self.depth = mp.mpmathify(depth)
+        self.height = mp.mpmathify(height)
 
-        self.wElements = int(wElements)
-        self.dElements = int(dElements)
-        self.hElements = int(hElements)
+        self.wElements = mp.mpmathify(mp.nint(wElements))
+        self.dElements = mp.mpmathify(mp.nint(dElements))
+        self.hElements = mp.mpmathify(mp.nint(hElements))
 
-        self.widthSmall = (self.width / self.wElements)
-        self.depthSmall = (self.depth / self.dElements)
-        self.heightSmall = (self.height / self.hElements)
-        self.nElements = int(
-            round((self.width * self.depth * self.height) / (self.widthSmall * self.depthSmall * self.heightSmall)))
+        self.widthSmall = mp.mpmathify(self.width / self.wElements)
+        self.depthSmall = mp.mpmathify(self.depth / self.dElements)
+        self.heightSmall = mp.mpmathify(self.height / self.hElements)
+        self.nElements = mp.nint((self.width * self.depth * self.height) / (self.widthSmall * self.depthSmall * self.heightSmall))
 
     def isInStructure(self, xpoint, ypoint, zpoint):
         return True
@@ -29,16 +28,12 @@ class Block:
         startd = (self.depthSmall / 2) + self.ypoz
         starth = (self.heightSmall / 2) + self.zpoz
 
-        #print(startw, starth, startd, self.widthSmall, self.depthSmall, self.heightSmall)
-        #print(self.width, self.depth, self.height)
-        #print(self.wElements, self.dElements, self.hElements)
-
-        for i in range(self.wElements):
-            for j in range(self.dElements):
-                for k in range(self.hElements):
+        for i in mp.arange(self.wElements):
+            for j in mp.arange(self.dElements):
+                for k in mp.arange(self.hElements):
                     if self.isInStructure(startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k):
                         self.smallBlocksStructure.append([startw+self.widthSmall*i, startd+self.depthSmall*j, starth+self.heightSmall*k])
-        self.nElements = len(self.smallBlocksStructure)
+        self.nElements = mp.mpmathify(len(self.smallBlocksStructure))
 
 class Rectangle(Block):
     def __init__(self, width, depth, height, xpoz, ypoz, zpoz, wElements, dElements, hElements):
@@ -55,135 +50,146 @@ class Ellipse(Block):
         self.axis = axis
         #if self.axis == 0:
         super(Ellipse, self).__init__(a, b, height, xpoz, ypoz, zpoz, wElements, dElements, hElements)
-        '''elif self.axis == 1:
-            super(Ellipse, self).__init__(height, a, b, xpoz, ypoz, zpoz, hElements, wElements, dElements)
-        else:
-            super(Ellipse, self).__init__(a, height, b, xpoz, ypoz, zpoz, wElements, dElements, hElements)
-        '''
+
     def isInStructure(self, xpoint, ypoint, zpoint):
         if self.axis == 0:
-            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((ypoint - self.depth- self.ypoz) ** 2 /                                    self.depth ** 2) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz:
+            if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2) + (mp.power((ypoint - (self.depth/2)- self.ypoz), 2) /mp.power((self.depth/2), 2)) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz):
                 return True
 
 
         elif self.axis == 1:
-            if ((ypoint - self.depth - self.ypoz) ** 2 / (self.depth ** 2)) + ((zpoint - self.height - self.zpoz) ** 2 / (self.height ** 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
+            if (mp.power((ypoint - (self.depth/2) - self.ypoz), 2) / mp.power((self.depth/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
                 return True
 
         else:
-            if ((xpoint - self.width - self.xpoz) ** 2 / self.width ** 2) + ((zpoint - self.height - self.zpoz) ** 2 / self.height ** 2) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
+            if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
                 return True
-            
+
         return False
 
 
 def radius(x, y, z):
-    return mt.sqrt(x ** 2 + y ** 2 + z ** 2)
+    return mp.sqrt(mp.power(x, 2) + mp.power(y, 2) + mp.power(z, 2))
 
-def wspolczynnik(delx, dely, delz, x, y, z, emitter):
-    xx = abs(x - delx) / (emitter.widthSmall)
-    yy = abs(y - dely) / (emitter.heightSmall)
-    zz = abs(z - delz) / (emitter.depthSmall)
-
-    if int(xx + yy + zz + 0.5) == 0:
+def wspolczynnik(delx, dely, delz, x, y, z, emitter):       
+    counter = 0
+    if delx == x:
+        counter+=1
+    if dely == y:
+        counter+=1
+    if delz == z:
+        counter+=1
+    
+    if counter == 3:
         return 8.0
-    if int(xx + yy + zz + 0.5) == 1:
+    elif counter == 2:
         return -4.0
-    if int(xx + yy + zz + 0.5) == 2:
+    elif counter == 1:
         return 2.0
     else:
         return -1.0
 
 def f(x, y, z):
+    x = mp.mpmathify(x)
+    y = mp.mpmathify(y)
+    z = mp.mpmathify(z)
+	
     R = radius(x, y, z)
 
     # solving 0 division problem here
 
     if x == 0 and z == 0 or y == 0:
-        part1 = 0
+        part1 = mp.mpmathify(0)
     else:
-        part1 = 0.5 * y * (z ** 2 - x ** 2) * mt.asinh(y / (mt.sqrt(x ** 2 + z ** 2)))
+        part1 = mp.mpf('0.5') * y * (mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
 
     if x == 0 and y == 0 or z == 0:
         part2 = 0
     else:
-        part2 = 0.5 * z * (y ** 2 - x ** 2) * mt.asinh(z / (mt.sqrt(x ** 2 + y ** 2)))
+        part2 = mp.mpf('0.5') * z * (mp.power(y, 2) - mp.power(x, 2)) * mp.asinh(z / (mp.sqrt(mp.power(x, 2) + mp.power(y, 2))))
 
     if x == 0 or y == 0 or z == 0:
         part3 = 0
     else:
-        part3 = x * y * z * mt.atan((y * z) / (x * R))
+        part3 = x * y * z * mp.atan((y * z) / (x * R))
 
     # solving 0 division problem here
 
-    part4 = (1 / 6.0) * R * (2 * x ** 2 - y ** 2 - z ** 2)
+    part4 = mp.mpf('1 / 6') * R * (2 * mp.power(x, 2) - mp.power(y, 2) - mp.power(z, 2))
 
-    return part1 + part2 - part3 + part4
+    return mp.mpmathify(part1 + part2 - part3 + part4)
 
 def g(x, y, z):
-    R = radius(x, y, z)
+    x = mp.mpmathify(x)
+    y = mp.mpmathify(y)
+    z = mp.mpmathify(z)
 
+    R = radius(x, y, z)
+	
     if x == 0 and y == 0:
-        part1 = 0
+        part1 = mp.mpf('0')
     else:
-        part1 = x * y * z * mt.asinh(z / (mt.sqrt(x ** 2 + y ** 2)))
+        part1 = x * y * z * mp.asinh(z / (mp.sqrt(mp.power(x, 2) + mp.power(y, 2))))
 
     if y == 0 and z == 0:
-        part2 = 0
+        part2 = mp.mpf('0')
     else:
-        part2 = (1 / 6.0) * y * (3 * z ** 2 - y ** 2) * mt.asinh(x / (mt.sqrt(y ** 2 + z ** 2)))
+        part2 = mp.mpf('1 / 6') * y * (3 * mp.power(z, 2) - mp.power(y, 2)) * mp.asinh(x / (mp.sqrt(mp.power(y, 2) + mp.power(z, 2))))
 
     if x == 0 and z == 0:
         part3 = 0
     else:
-        part3 = (1 / 6.0) * x * (3 * z ** 2 - x ** 2) * mt.asinh(y / (mt.sqrt(x ** 2 + z ** 2)))
+        part3 = mp.mpf('1 / 6') * x * (3 * mp.power(z, 2) - mp.power(x, 2)) * mp.asinh(y / (mp.sqrt(mp.power(x, 2) + mp.power(z, 2))))
 
     if y == 0:
         part4 = 0
     else:
-        part4 = 0.5 * (y ** 2) * z * mt.atan((x * z) / (y * R))
+        part4 = mp.mpf('0.5') * mp.power(y, 2) * z * mp.atan((x * z) / (y * R))
 
     if x == 0:
         part5 = 0
     else:
-        part5 = 0.5 * (x ** 2) * z * mt.atan((y * z) / (x * R))
+        part5 = mp.mpf('0.5') * mp.power(x, 2) * z * mp.atan((y * z) / (x * R))
 
     if z == 0:
         part6 = 0
     else:
-        part6 = (1 / 6.0) * z ** 3 * mt.atan((x * y) / (z * R))
+        part6 = mp.mpf('1 / 6') * mp.power(z, 3) * mp.atan((x * y) / (z * R))
 
-    part7 = (1 / 3.0) * x * y * R
+    part7 = mp.mpf('1 / 3') * x * y * R
+    return mp.mpmathify(part1 + part2 + part3 - part4 - part5 - part6 - part7)
 
-    return part1 + part2 + part3 - part4 - part5 - part6 - part7
 
-def calculateNxx(delx, dely, delz, dx, dy, dz, emitter):
+
+def calculateNxx(delx, dely, delz, dx, dy, dz, emitter, fLookUP):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
 
-    Nxx = 0
+    Nxx = mp.mpf('0')
 
     for x in xran:
         for y in yran:
             for z in zran:
-                Nxx += wspolczynnik(delx, dely, delz, x, y, z, emitter) * f(x, y, z)
+                Nxx += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * fLookUP(x, y, z))
 
     return Nxx
 
-def calculateNxy(delx, dely, delz, dx, dy, dz, emitter):
+def calculateNxy(delx, dely, delz, dx, dy, dz, emitter, gLookUP):
     xran = [delx - dx, delx, delx + dx]
     yran = [dely - dy, dely, dely + dy]
     zran = [delz - dz, delz, delz + dz]
-
-    Nxy = 0
+    Nxy = mp.mpf('0')
 
     for x in xran:
         for y in yran:
             for z in zran:
-                Nxy += wspolczynnik(delx, dely, delz, x, y, z, emitter) * g(x, y, z)
-
+                Nxy += mp.mpmathify(wspolczynnik(delx, dely, delz, x, y, z, emitter) * gLookUP(x, y, z))
     return Nxy
 
 def calculateDistance(cell1, cell2):
-    return abs(cell1[0]-cell2[0]), abs(cell1[1]-cell2[1]), abs(cell1[2]-cell2[2])
+    return (mp.mpmathify((cell1[0]-cell2[0])), mp.mpmathify((cell1[1]-cell2[1])), mp.mpmathify((cell1[2]-cell2[2])))
+    
+
+
+
