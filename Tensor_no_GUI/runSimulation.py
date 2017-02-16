@@ -4,7 +4,7 @@ import mpmath as mp
 
 if __name__ == '__main__':   
 
-	'''Here is configuration file and here we can change values for simualation, example data are for emitter cyllinder shape in xy axis and rectangle'''
+	'''Here is configuration file and here we can change values for simualation, example data are for emitter cyllinder shape in xy axis and rectangle receiver'''
 
 	########################################################################################################################
 														#EMITTER
@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
 	########################################################################################################################
 													#COLLECTOR
-	collectorShape = "c" #rectangle
-	collectorAxis = "xy"
+	collectorShape = "r" #rectangle
+	collectorAxis = "-1"
 
 	collectorWidth = ("50e-9") #width of whole structure which is going to be divided [nm]
 	collectorDepth = ("50e-9")
