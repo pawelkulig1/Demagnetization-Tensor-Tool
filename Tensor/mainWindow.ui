@@ -482,7 +482,7 @@
     <item row="0" column="1">
      <widget class="QGroupBox" name="collectorGroupBox">
       <property name="title">
-       <string>Collector</string>
+       <string>Receiver</string>
       </property>
       <widget class="QRadioButton" name="collectorCylRadioButton">
        <property name="enabled">

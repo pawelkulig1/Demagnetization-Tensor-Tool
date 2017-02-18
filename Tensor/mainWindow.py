@@ -334,7 +334,7 @@ class Ui_mainWindow(object):
         self.emitterComboBox.setItemText(0, _translate("mainWindow", "xy", None))
         self.emitterComboBox.setItemText(1, _translate("mainWindow", "yz", None))
         self.emitterComboBox.setItemText(2, _translate("mainWindow", "xz", None))
-        self.collectorGroupBox.setTitle(_translate("mainWindow", "Collector", None))
+        self.collectorGroupBox.setTitle(_translate("mainWindow", "Receiver", None))
         self.collectorCylRadioButton.setText(_translate("mainWindow", "Cyllindric", None))
         self.collectorElementsGroupBox.setTitle(_translate("mainWindow", "Elements", None))
         self.collectorElementsDepthLineEdit.setText(_translate("mainWindow", "1", None))
