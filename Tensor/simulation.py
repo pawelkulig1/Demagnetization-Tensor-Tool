@@ -20,6 +20,12 @@ class SimulateThread(QThread):
     def __del__(self):
         self.wait()
 
+    def saveToFile(self, data):
+        f = open("out.txt", "w")
+        temp = "["+str(data[0])+" "+str(data[1])+" "+str(data[2])+"]\n["+str(data[3])+" "+str(data[4])+" "+str(data[5])+"]\n["+str(data[6])+" "+str(data[7])+" "+str(data[8])+"]"
+        f.write(temp)
+        f.close()
+
     def run(self):
         self.simulate(self.emitter, self.collector)
 
@@ -87,6 +93,8 @@ class SimulateThread(QThread):
         print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
         print("[", finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
         self.emit(QtCore.SIGNAL('FINAL_MATRIX'), finalMatrix)
+        
+        self.saveToFile(finalMatrix)
         #return finalMatrix
 
 

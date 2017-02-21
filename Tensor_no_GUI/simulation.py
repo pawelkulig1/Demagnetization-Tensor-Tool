@@ -8,6 +8,12 @@ import math as mt
 #calculateNxyLookUp = mp.memoize(calculateNxy)
 #calculateDistanceLookUp = mp.memoize(calculateDistance) 
 
+def saveToFile(data):
+	f = open("out.txt", "w")
+	temp = "["+str(data[0])+" "+str(data[1])+" "+str(data[2])+"]\n["+str(data[3])+" "+str(data[4])+" "+str(data[5])+"]\n["+str(data[6])+" "+str(data[7])+" "+str(data[8])+"]"
+	f.write(temp)
+	f.close()
+
 def simulate(emi, rec, nThreads=0):
     mp.mp.dps = 64
     
@@ -71,6 +77,7 @@ def simulate(emi, rec, nThreads=0):
     print("[", finalMatrix[0], finalMatrix[1], finalMatrix[2], "]")
     print("[", finalMatrix[3], finalMatrix[4], finalMatrix[5], "]")
     print("[", finalMatrix[6], finalMatrix[7], finalMatrix[8], "]")
+    saveToFile(finalMatrix)
     return finalMatrix
 
 
