@@ -55,18 +55,13 @@ class Ellipse(Block):
         if self.axis == 0:
             if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2) + (mp.power((ypoint - (self.depth/2)- self.ypoz), 2) /mp.power((self.depth/2), 2)) <= 1 and zpoint <= self.zpoz + self.height and zpoint >= self.zpoz):
                 return True
-
-
         elif self.axis == 1:
             if (mp.power((ypoint - (self.depth/2) - self.ypoz), 2) / mp.power((self.depth/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and xpoint <= self.xpoz + self.width and xpoint >= self.xpoz:
                 return True
-
         else:
             if (mp.power((xpoint - (self.width/2) - self.xpoz), 2) / mp.power((self.width/2), 2)) + (mp.power((zpoint - (self.height/2) - self.zpoz), 2) / mp.power((self.height/2), 2)) <= 1 and ypoint <= self.ypoz + self.height and ypoint >= self.ypoz:
                 return True
-
         return False
-
 
 def radius(x, y, z):
     return mp.sqrt(mp.power(x, 2) + mp.power(y, 2) + mp.power(z, 2))
