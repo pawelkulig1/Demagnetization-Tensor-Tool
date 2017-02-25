@@ -68,38 +68,14 @@ class MainScreen(QtGui.QMainWindow, Ui_mainWindow):
 
     def emitterRadioToggle(self):
         if self.emitterRecRadioButton.isChecked():
-            self.emitterWidthLabel.setText("width")
-            self.emitterDepthLabel.setText("depth")
-            self.emitterWidthLineEdit.move(60, 20)
-            self.emitterDepthLineEdit.move(60, 40)
-            self.emitterWidthMetersLabel.move(150, 22)
-            self.emitterDepthMetersLabel.move(150, 42)
             self.emitterComboBox.hide()
         else:
-            self.emitterWidthLabel.setText("A Factor")
-            self.emitterDepthLabel.setText("B Factor")
-            self.emitterWidthLineEdit.move(70, 20)
-            self.emitterDepthLineEdit.move(70, 40)
-            self.emitterWidthMetersLabel.move(160, 22)
-            self.emitterDepthMetersLabel.move(160, 42)
             self.emitterComboBox.show()
 
     def collectorRadioToggle(self):
         if self.collectorRecRadioButton.isChecked():
-            self.collectorWidthLabel.setText("width")
-            self.collectorDepthLabel.setText("depth")
-            self.collectorWidthLineEdit.move(60, 20)
-            self.collectorDepthLineEdit.move(60, 40)
-            self.collectorWidthMetersLabel.move(150, 22)
-            self.collectorDepthMetersLabel.move(150, 42)
             self.collectorComboBox.hide()
         else:
-            self.collectorWidthLabel.setText("A Factor")
-            self.collectorDepthLabel.setText("B Factor")
-            self.collectorWidthLineEdit.move(70, 20)
-            self.collectorDepthLineEdit.move(70, 40)
-            self.collectorWidthMetersLabel.move(160, 22)
-            self.collectorDepthMetersLabel.move(160, 42)
             self.collectorComboBox.show()
 
     def alert(self, text, details=""):
